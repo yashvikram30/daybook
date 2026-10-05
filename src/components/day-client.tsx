@@ -6,6 +6,7 @@ import { createNote, titleOf, useBrain } from "@/lib/brain-store";
 import { toast } from "@/lib/toast";
 import { checkedCount, setDayDone, setItem, setNote, useGuestState } from "@/lib/guest-store";
 import { hostOf, type Item } from "@/lib/curriculum-types";
+import { InlineCode } from "./inline-code";
 
 export function ItemRow({ item }: { item: Item }) {
   const guest = useGuestState();
@@ -24,15 +25,19 @@ export function ItemRow({ item }: { item: Item }) {
       />
       <div id={id + "-l"}>
         {item.section === "build" ? (
-          <span className="task">{item.title}</span>
+          <span className="task">
+            <InlineCode text={item.title} />
+          </span>
         ) : (
           <div className="ttl">
             {item.url ? (
               <a href={item.url} target="_blank" rel="noopener noreferrer">
-                {item.title}
+                <InlineCode text={item.title} />
               </a>
             ) : (
-              <span>{item.title}</span>
+              <span>
+                <InlineCode text={item.title} />
+              </span>
             )}
             {item.difficulty ? (
               <span
@@ -43,7 +48,11 @@ export function ItemRow({ item }: { item: Item }) {
               </span>
             ) : null}
             {host && <span className="host">{host}</span>}
-            {item.note && <span className="note">{item.note}</span>}
+            {item.note && (
+              <span className="note">
+                <InlineCode text={item.note} />
+              </span>
+            )}
           </div>
         )}
       </div>

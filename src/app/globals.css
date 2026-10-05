@@ -238,6 +238,75 @@ kbd {
   background: var(--bg-hover);
   text-decoration: none;
 }
+.more {
+  position: relative;
+}
+.more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+.more-btn:hover,
+.more-btn.on,
+.more-btn[aria-expanded="true"] {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+.more-pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 50;
+  min-width: 232px;
+  padding: 6px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel, var(--bg));
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.14);
+}
+.more-pop a,
+.more-pop button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text);
+  font-size: 14px;
+  text-align: left;
+}
+.more-pop a:hover,
+.more-pop button:hover,
+.more-pop a.on {
+  background: var(--bg-hover);
+  text-decoration: none;
+}
+.more-pop small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+.more-pop kbd {
+  margin-left: auto;
+}
+.more-pop svg {
+  color: var(--muted);
+}
+.more-pop hr {
+  margin: 6px 4px;
+  border: 0;
+  border-top: 1px solid var(--line);
+}
 .btn {
   display: inline-flex;
   align-items: center;

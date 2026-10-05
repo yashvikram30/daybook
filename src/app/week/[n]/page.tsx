@@ -49,6 +49,13 @@ export default async function WeekPage({ params }: PageProps<"/week/[n]">) {
         Week {week.number} of {c.weeks.length} · {phase.name} · {phase.language}
       </p>
       <p className="lead">{week.summary}</p>
+      {week.number === 1 && (
+        <div className="callout">
+          <b>New to programming?</b>
+          The optional four-week <Link href="/foundations">Part 0: Python Foundations</Link> is for people who
+          do not know basic programming yet. If you can already write functions, loops and classes, skip it.
+        </div>
+      )}
       <div className="callout">
         <b>Project</b>
         {week.project}

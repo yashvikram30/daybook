@@ -14,6 +14,8 @@ export type PyStage = {
   sources: { title: string; url: string }[];
   /** How you know you can move on. */
   ready: string;
+  /** Where Python Foundations already covered this stage, so the lessons read as revision. */
+  covered: string;
 };
 
 export const PY_STAGES: PyStage[] = [
@@ -37,6 +39,8 @@ export const PY_STAGES: PyStage[] = [
     ],
     ready:
       "You can write FizzBuzz, a function with a default argument and a word counter for a file from a blank page, test one with pytest, and run ruff on it.",
+    covered:
+      "Foundations weeks 1 and 2 cover all of it. The lesson is revision; do the warm-up in 15 minutes.",
   },
   {
     title: "Data and memory",
@@ -59,6 +63,8 @@ export const PY_STAGES: PyStage[] = [
     ],
     ready:
       "You can say what a list is made of and predict when an append reallocates and when two names share one object.",
+    covered:
+      "Foundations days 2.3, 2.4 and 3.1 cover lists, tuples, dicts and sets. New here: what they are in memory.",
   },
   {
     title: "Behaviour and tests",
@@ -80,6 +86,7 @@ export const PY_STAGES: PyStage[] = [
       },
     ],
     ready: "You can define a Protocol, satisfy it with two classes, and cover both with a parametrized test.",
+    covered: "Foundations days 4.1 to 4.3 cover classes and pytest. New here: dataclasses and protocols.",
   },
   {
     title: "Idiomatic Python",
@@ -101,6 +108,8 @@ export const PY_STAGES: PyStage[] = [
     ],
     ready:
       "Your emulator passes ruff and mypy, raises specific exceptions, and has a timing benchmark you wrote yourself.",
+    covered:
+      "Foundations day 3.3 covers exceptions and day 4.3 covers pytest and ruff. New here: PEP 8 in depth, type hints and timing.",
   },
   {
     title: "Talking to the system",
@@ -117,6 +126,7 @@ export const PY_STAGES: PyStage[] = [
       { title: "threading and queue", url: "https://docs.python.org/3/library/threading.html" },
     ],
     ready: "Your shell runs pipelines, handles Ctrl-C, and leaves no zombies.",
+    covered: "Not in Foundations. Start from the subprocess docs; day 3.2 files and modules help.",
   },
   {
     title: "Concurrency for real",
@@ -136,6 +146,7 @@ export const PY_STAGES: PyStage[] = [
       { title: "concurrent.futures", url: "https://docs.python.org/3/library/concurrent.futures.html" },
     ],
     ready: "Your worker pool passes a stress test, shuts down cleanly on cancel, and you can explain why.",
+    covered: "Not in Foundations. This is the first time you meet threads and locks.",
   },
 ];
 

@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { ViewTransition, useCallback, useEffect, useState } from "react";
 import { AccountLink } from "./account-link";
 import { Icon } from "./icons";
+import { MoreMenu } from "./more-menu";
 import { NavTree, type NavPhase } from "./nav-tree";
 import { QuickCapture } from "./quick-capture";
 import { SearchDialog, type SearchEntry } from "./search-dialog";
@@ -109,31 +110,14 @@ export function AppShell({
             <Link href="/plan" className={pathname === "/plan" ? "on" : undefined}>
               Plan
             </Link>
-            <Link href="/python" className={pathname === "/python" ? "on" : undefined}>
-              Learn Python
-            </Link>
             <Link href="/revise" className={pathname === "/revise" ? "on" : undefined}>
               Revise
             </Link>
             <Link href="/notes" className={pathname === "/notes" ? "on" : undefined}>
               Notes
             </Link>
-            <Link href="/schedule" className={pathname === "/schedule" ? "on" : undefined}>
-              Schedule
-            </Link>
-            <Link href="/settings" className={pathname === "/settings" ? "on" : undefined}>
-              Settings
-            </Link>
+            <MoreMenu onFocus={toggleFocus} />
           </nav>
-          <button
-            className="icon-btn"
-            type="button"
-            aria-label="Focus mode: show only the page"
-            title="Focus mode (F)"
-            onClick={toggleFocus}
-          >
-            {Icon.expand}
-          </button>
           <ThemeToggle />
           <AccountLink />
         </header>

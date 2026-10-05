@@ -59,6 +59,9 @@ export default async function Home() {
               <Link className="ulink" href="/day/1/1">
                 Or look at day one
               </Link>
+              <Link className="ulink" href="/foundations">
+                Optional Part 0: Python Foundations, for people new to programming
+              </Link>
             </div>
           </div>
           <div>

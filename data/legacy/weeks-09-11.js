@@ -31,7 +31,7 @@ WEEKS.push(
           R(
             "DDIA chapter 8: the trouble with distributed systems",
             "https://dataintensive.net/",
-            "Read in full.",
+            "Read the sections on faults, unreliable networks and unreliable clocks. The rest of the chapter waits for week 10.",
           ),
         ],
         build: [
@@ -43,7 +43,7 @@ WEEKS.push(
         swe: {
           t: "Design for failure",
           link: R(
-            "Fallacies and your API design (Google SRE)",
+            "Addressing cascading failures (Google SRE book)",
             "https://sre.google/sre-book/addressing-cascading-failures/",
             "Read the first half.",
           ),
@@ -64,6 +64,7 @@ WEEKS.push(
             "https://lamport.azurewebsites.net/pubs/time-clocks.pdf",
             "The foundational paper. Read to section 4.",
           ),
+          V("Distributed Systems 3.3: Causality and happens-before (Kleppmann)", "OKHIdpOAxto", "16 min. Read the Lamport paper after this, not before."),
         ],
         build: [
           "Implement Lamport clocks and vector clocks in Python.",
@@ -88,6 +89,8 @@ WEEKS.push(
         t: "Replication and consistency models",
         why: "Copies of data diverge. Learn the choices and what each costs.",
         main: [
+          V("Data Consistency and Tradeoffs in Distributed Systems (Gaurav Sen)", "m4q7VkgDWrM", "26 min, English. A gentle first pass at consistency."),
+          V("CAP Theorem Simplified (ByteByteGo)", "BHqjEjzAicA", "6 min. Read Kleppmann's critique below after this."),
           V("Distributed Systems 5.1: Replication (Kleppmann)", "mBUCF1WGI_I", "25 min."),
           R(
             "DDIA chapter 5: replication",
@@ -104,11 +107,15 @@ WEEKS.push(
             "https://martin.kleppmann.com/2015/05/11/please-stop-calling-databases-cp-or-ap.html",
             "A critique of CAP as a label.",
           ),
+          V("Distributed Systems 5.2: Quorums (Kleppmann)", "uNxl3BFcKSA", "10 min. The W + R > N rule."),
+          V("Distributed Systems 5.3: State machine replication (Kleppmann)", "mlWOQuO55PE", "10 min. The idea Raft is built on."),
+          V("Distributed Systems 7.2: Linearizability (Kleppmann)", "noUNH3jDLC0", "19 min. The strongest single-object guarantee."),
         ],
         build: [
           "Build a leader-follower replicated KV store over faultnet with asynchronous replication.",
           "Kill the leader and promote a follower. Show a lost write.",
           "Read from a follower and demonstrate a stale read.",
+          "Add quorum reads and writes (N replicas, write to W, read from R) and show that a stale read becomes impossible when W + R > N, and returns when it is not.",
         ],
         ship: "dist/kv-repl and a write-up of the anomalies you triggered.",
         swe: {
@@ -122,6 +129,7 @@ WEEKS.push(
         ask: [
           "What does linearizability promise that eventual consistency does not?",
           "Why does synchronous replication hurt availability?",
+          "Why does W + R > N guarantee that a read sees the latest write?",
         ],
       },
       {
@@ -149,6 +157,7 @@ WEEKS.push(
             "https://pdos.csail.mit.edu/6.824/labs/lab-raft1.html",
             "Your spec and test cases.",
           ),
+          V("Paxos Agreement (Computerphile)", "s8JqcZtvnsM", "14 min. Raft's older cousin: proposers, acceptors and quorums. Know the idea; do not implement it."),
         ],
         build: [
           "Implement Raft node state: term, votedFor, log, role.",
@@ -167,6 +176,7 @@ WEEKS.push(
         ask: [
           "Why do election timeouts need to be randomised?",
           "What stops two leaders existing in the same term?",
+          "How does Raft's leader-based design differ from basic Paxos?",
         ],
       },
     ],
@@ -196,6 +206,7 @@ WEEKS.push(
             "Log matching and election restriction.",
           ),
           L("Raft visualization", "https://raft.github.io/", "Experiment with failures."),
+          V("Lecture 7: Fault Tolerance: Raft (2) - MIT 6.824", "4r8Mz3MMivY", "Robert Morris, 78 min. Persistence, snapshots and the figure 8 scenario."),
         ],
         build: [
           "Implement AppendEntries with the consistency check and log repair.",
@@ -220,6 +231,8 @@ WEEKS.push(
         t: "Partitioning and consistent hashing",
         why: "One machine's capacity is a ceiling. Spread data across many.",
         main: [
+          V("Horizontal vs Vertical Database Partitioning (Hussein Nasser)", "QA25cMWp9Tk", "10 min."),
+          V("When should you shard your database? (Hussein Nasser)", "iHNovZUZM3A", "21 min. The costs people forget."),
           R(
             "DDIA chapter 6: partitioning",
             "https://dataintensive.net/",
@@ -232,6 +245,8 @@ WEEKS.push(
           ),
           V("What is CONSISTENT HASHING and Where is it used?", "zaRkONvyGr8", "Gaurav Sen."),
           V("Consistent Hashing | Algorithms You Should Know", "UF9Iqmg94tk", "ByteByteGo."),
+          V("Lecture 1: Introduction, MapReduce (MIT 6.824)", "cQP8WApzIQQ", "Optional, 80 min. Partitioned computation as well as partitioned storage."),
+          V("Lecture 13: Spanner (MIT 6.824)", "4eW5SWBi7vs", "Optional, 79 min. Partitions, Paxos groups and TrueTime together. Good to return to after the week."),
         ],
         build: [
           "Implement a consistent hash ring with virtual nodes in Python.",
@@ -250,12 +265,15 @@ WEEKS.push(
         ask: [
           "Why does naive modulo hashing move almost every key when a node is added?",
           "What problem do virtual nodes solve?",
+          "What is a hot partition, and how would you reduce one?",
         ],
       },
       {
         t: "Messaging, retries and idempotency",
         why: "Networks duplicate and drop. Make operations safe to repeat.",
         main: [
+          V("Apache Kafka Fundamentals You Should Know (ByteByteGo)", "-RDyEFvnTXI", "5 min."),
+          V("What is Kafka and How does it work? (Hussein Nasser)", "LN_HcJVbySw", "15 min. Topics, partitions, offsets and consumer groups."),
           R(
             "Designing robust and predictable APIs with idempotency (Stripe)",
             "https://stripe.com/blog/idempotency",
@@ -271,11 +289,13 @@ WEEKS.push(
             "https://kafka.apache.org/documentation/#design",
             "Read persistence, the producer and consumer sections, and delivery semantics.",
           ),
+          V("Distributed Systems 7.1: Two-phase commit (Kleppmann)", "-_rdWB9hN1c", "19 min. Atomic commit across nodes, and where it blocks."),
         ],
         build: [
           "Put an HTTP API in front of your Raft KV. Support an `Idempotency-Key` header and store results.",
           "Write a client with timeouts, exponential backoff and full jitter.",
           "Test: inject message loss and duplicate requests. Verify each logical write applies exactly once.",
+          "Sketch two-phase commit across two shards of your store: coordinator, prepare, commit, and what each participant does if the coordinator dies after prepare. Implement it over faultnet if time allows.",
         ],
         ship: "dist/api and client library with tests.",
         swe: {
@@ -289,12 +309,14 @@ WEEKS.push(
         ask: [
           "Why is 'exactly once' delivery impossible, and how do you get exactly-once effects instead?",
           "What goes wrong with retries without jitter during an outage?",
+          "What does two-phase commit block on, and how does a replicated coordinator help?",
         ],
       },
       {
         t: "System design practice and failure testing",
         why: "Turn the components into designs you can explain under time pressure.",
         main: [
+          V("What is LOAD BALANCING? (Gaurav Sen)", "K0Ta65OqQkY", "14 min. Round robin, least connections, consistent hashing: you have met them all."),
           R(
             "The System Design Primer",
             "https://github.com/donnemartin/system-design-primer",
@@ -342,6 +364,8 @@ WEEKS.push(
         t: "Software design and refactoring",
         why: "Complexity is the main enemy. Learn to see it and reduce it.",
         main: [
+          V("From Spaghetti Code to Clean Python (ArjanCodes)", "mH7e7fs9gaE", "23 min. A refactor shown step by step."),
+          V("Uncle Bob's SOLID Principles Made Easy, in Python (ArjanCodes)", "pTB30aXS77U", "19 min. Use the principles as questions to ask of your code."),
           V("A Philosophy of Software Design (Ousterhout, Talks at Google)", "bmSAYlu0NcY", "62 min."),
           R(
             "A Philosophy of Software Design: book page",
@@ -383,6 +407,8 @@ WEEKS.push(
         t: "Testing in depth",
         why: "Tests are the only reliable proof a change is safe.",
         main: [
+          V("Please Learn How To Write Tests in Python: Pytest Tutorial (Tech With Tim)", "EgpLj86ZHFQ", "33 min. Start here if pytest is still new."),
+          V("Automated Testing in Python with pytest, tox, and GitHub Actions (mCoding)", "DhUpxWjOhME", "27 min."),
           R(
             "The practical test pyramid (Fowler)",
             "https://martinfowler.com/articles/practical-test-pyramid.html",
@@ -428,6 +454,9 @@ WEEKS.push(
         t: "APIs and architecture styles",
         why: "Interfaces outlive implementations. Design them to evolve.",
         main: [
+          V("Top 6 Most Popular API Architecture Styles (ByteByteGo)", "4vLxWqE94l4", "4 min. REST, GraphQL, gRPC and the rest in one map."),
+          V("What is RPC? gRPC Introduction (ByteByteGo)", "gnchfOojMk4", "6 min. Needed for the REST versus gRPC ADR."),
+          V("FastAPI Course for Beginners (freeCodeCamp)", "tLKKmouUams", "65 min. FastAPI is what the gateway uses from week 14. Code along with the first half."),
           V("How To Design A Good API and Why it Matters (Bloch)", "aAb7hSCtvGw", "60 min."),
           R(
             "Google API design guide",
@@ -473,6 +502,8 @@ WEEKS.push(
         t: "Delivery and operations",
         why: "Software that cannot be built, shipped and observed is unfinished.",
         main: [
+          V("Docker Crash Course for Absolute Beginners (TechWorld with Nana)", "pg19Z8LL06w", "68 min. Images, containers, volumes and Compose. You used a container in week 8; now you build one."),
+          V("CI/CD Explained in 5 Minutes (TechWorld with Nana)", "ddDJxFnv-qs", "5 min."),
           D(
             "GitHub Actions documentation",
             "https://docs.github.com/en/actions",

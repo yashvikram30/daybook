@@ -4,7 +4,7 @@ WEEKS.push(
     phase: "ml",
     title: "Machine learning foundations",
     summary:
-      "The math you need, a proper supervised-learning workflow, and a neural network built from scratch. Python from here.",
+      "The math you need, a proper supervised-learning workflow with honest evaluation, the standard models (linear and logistic regression, trees, forests, boosting, regularisation) and a neural network built from scratch. Python from here.",
     project:
       "Linear regression from scratch, a cross-validated sklearn pipeline, a micrograd-style autograd engine and a PyTorch classifier.",
     days: [
@@ -12,6 +12,9 @@ WEEKS.push(
         t: "Math refresher and your first model",
         why: "Linear algebra and gradients are the working vocabulary of ML.",
         main: [
+          V("Machine Learning for Everybody (freeCodeCamp, Kylie Ying)", "i_LwzRVP7bg", "3h54. Optional on-ramp if ML is new: watch the first hour for the vocabulary (features, labels, train and test) at 1.5x."),
+          V("Stanford CS229: Linear Regression and Gradient Descent (Andrew Ng)", "4b4MUYve_U8", "78 min, Lecture 2. The classic derivation. Pair it with the StatQuest video. Andrew Ng's Machine Learning Specialization (Coursera) is the gentler full course."),
+          V("Tutorial 5: Pandas, Data Frame and Data Series (Krish Naik)", "QUClKFFn1Vk", "17 min. The pandas basics you need for tomorrow's tabular data."),
           L(
             "Essence of linear algebra (3Blue1Brown playlist)",
             "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab",
@@ -29,6 +32,8 @@ WEEKS.push(
             "Set up the project with `uv init` and `uv add numpy matplotlib`.",
           ),
           D("NumPy quickstart", "https://numpy.org/doc/stable/user/quickstart.html", "Arrays, broadcasting."),
+          D("10 minutes to pandas", "https://pandas.pydata.org/docs/user_guide/10min.html", "Read it with a CSV open in a notebook."),
+          L("Machine Learning Specialization (Andrew Ng, DeepLearning.AI)", "https://www.coursera.org/specializations/machine-learning-introduction", "The full beginner course. Use it as the long route through this week."),
         ],
         build: [
           "Generate noisy data from y = 3x + 2. Fit it with gradient descent in plain NumPy.",
@@ -53,6 +58,9 @@ WEEKS.push(
         t: "Supervised learning and honest evaluation",
         why: "Most ML failures are evaluation failures. Learn to avoid fooling yourself.",
         main: [
+          V("Machine Learning Fundamentals: The Confusion Matrix (StatQuest)", "Kdsp6soqA7o", "7 min."),
+          V("Machine Learning Fundamentals: Sensitivity and Specificity (StatQuest)", "vP06aMoz4v8", "12 min."),
+          V("ROC and AUC, Clearly Explained! (StatQuest)", "4jRBRDbJemM", "16 min."),
           R(
             "Google Machine Learning Crash Course",
             "https://developers.google.com/machine-learning/crash-course",
@@ -66,11 +74,20 @@ WEEKS.push(
             "https://scikit-learn.org/stable/user_guide.html",
             "Pipelines, model selection, metrics.",
           ),
+          V("Regularization Part 1: Ridge (L2) Regression (StatQuest)", "Q81RR3yKn30", "20 min. Then Lasso (L1) in 8 minutes, linked in the same series."),
+          V("Ridge vs Lasso Regression, Visualized (StatQuest)", "Xm2C_gTAl8c", "9 min."),
+          V("Decision and Classification Trees, Clearly Explained (StatQuest)", "_L39rN6gz7Y", "18 min."),
+          V("StatQuest: Random Forests Part 1 - Building, Using and Evaluating", "J4Wdy0Wc_xQ", "10 min."),
+          V("Gradient Boost Part 1 (of 4): Regression Main Ideas (StatQuest)", "3CC4N4z3GJc", "16 min. Boosting in one picture; XGBoost is the same idea made fast."),
+          D("Decision Forests (Google for Developers)", "https://developers.google.com/machine-learning/decision-forests", "Google's course on trees, forests and gradient boosting. Read the first modules."),
+          V("Complete Machine Learning In 6 Hours (Krish Naik)", "JxgmHe2NyeY", "Reference, not a sitting: jump to the chapter for each algorithm above when you want a second explanation, in code."),
         ],
         build: [
           "Pick a tabular dataset (for example sklearn's breast cancer or a Kaggle Titanic file).",
           "Build a baseline, then a Pipeline with preprocessing and logistic regression. Use stratified cross-validation.",
           "Report precision, recall and a confusion matrix. Find one way your first evaluation could have leaked test data.",
+          "Add a decision tree, a random forest and gradient boosting to the same cross-validated pipeline. Compare them with logistic regression, and report the mean and spread over the folds, not a single score.",
+          "Add L2 and L1 regularisation to the linear model and plot the validation score against the regularisation strength.",
         ],
         ship: "ml/ex2-tabular notebook or script with a 'what could be wrong with this evaluation' section.",
         swe: {
@@ -84,12 +101,16 @@ WEEKS.push(
         ask: [
           "What is the difference between a validation set and a test set, and why does reusing the test set invalidate it?",
           "Why can accuracy be misleading on an imbalanced dataset?",
+          "Why does a random forest usually generalise better than a single decision tree?",
+          "What does L1 regularisation do to the weights that L2 does not?",
         ],
       },
       {
         t: "Neural networks and backpropagation",
         why: "Build the engine that every deep learning framework is made of.",
         main: [
+          V("The Essential Main Ideas of Neural Networks (StatQuest)", "CqOfi41LfDw", "19 min. The gentlest start."),
+          V("Neural Networks Pt. 2: Backpropagation Main Ideas (StatQuest)", "IN2XmBhILt4", "18 min."),
           V("But what is a neural network? (3Blue1Brown)", "aircAruvnKk", "19 min."),
           V("Backpropagation, intuitively (3Blue1Brown)", "Ilg3gGewQ5U", "13 min."),
           V(
@@ -103,6 +124,8 @@ WEEKS.push(
             "Chapter 2 on backpropagation.",
           ),
           L("micrograd", "https://github.com/karpathy/micrograd", "Compare with your version afterwards."),
+          V("Tutorial 4: How to train Neural Network with BackPropagation (Krish Naik)", "mH9GBJ6og5A", "9 min. A second angle on the same idea."),
+          D("Machine Learning Crash Course: Neural networks (Google)", "https://developers.google.com/machine-learning/crash-course/neural-networks", "Short, interactive. Do it after the micrograd build."),
         ],
         build: [
           "Code along with the micrograd video. Build Value, the backward pass and a small MLP.",
@@ -142,6 +165,12 @@ WEEKS.push(
             "https://karpathy.ai/zero-to-hero.html",
             "Full playlist for later.",
           ),
+          L("PyTorch playlist (Krish Naik)", "https://www.youtube.com/playlist?list=PLZoTAELRMXVNxYFq_9MuiUdn2YnlFqmMK", "Optional: a second walkthrough of tensors, datasets and training loops."),
+          V("Deep Learning Indepth Tutorials In 5 Hours (Krish Naik)", "d2kxUVwWWwU", "Reference: ANN, CNN and RNN chapters, to dip into when you need them."),
+          V("Neural Networks Part 8: Image Classification with CNNs (StatQuest)", "HGwBXDKFk9I", "15 min. Optional: what a convolution layer does, which MNIST does not need but images do."),
+          V("StatQuest: K-means clustering", "4b5d3muPQmA", "9 min. Optional breadth: unsupervised learning."),
+          V("StatQuest: Principal Component Analysis (PCA), Step-by-Step", "FgakZw6K1QQ", "22 min. Optional breadth. Uses the linear algebra from day 1."),
+          V("StatQuest: K-nearest neighbors, Clearly Explained", "HVXime0nQeI", "6 min. Optional breadth. You will meet nearest-neighbour search again in week 15."),
         ],
         build: [
           "Train an MNIST classifier in PyTorch. First overfit a tiny batch to confirm the pipeline works.",
@@ -177,6 +206,10 @@ WEEKS.push(
         t: "Attention and transformers",
         why: "The architecture under every current language model. Build the core operation yourself before using a library.",
         main: [
+          V("Large Language Models explained briefly (3Blue1Brown)", "LPZh9BOjkQs", "8 min. The whole idea before the details."),
+          V("Introduction to large language models (Google Cloud Tech)", "zizonToFXDs", "16 min. Prompting, tuning and how LLMs are used."),
+          V("Attention mechanism: Overview (Google Cloud Tech)", "fjJOgb-E41w", "6 min."),
+          V("Transformer models and BERT model: Overview (Google Cloud Tech)", "t45S_MwAcOw", "12 min. Encoder versus decoder."),
           V("Transformers, the tech behind LLMs (3Blue1Brown)", "wjZofJX0v4M", "27 min."),
           V("Attention in transformers, step-by-step (3Blue1Brown)", "eMlx5fFNoYc", "26 min."),
           R(
@@ -194,6 +227,9 @@ WEEKS.push(
             "https://arxiv.org/abs/1706.03762",
             "Read after the above; it will make sense.",
           ),
+          V("Transformer Neural Networks, ChatGPT's foundation, Clearly Explained (StatQuest)", "zxQyTK8quyY", "36 min. Pick this or the narrated version below."),
+          V("The Narrated Transformer Language Model (Jay Alammar)", "-QH8fRhqFHM", "30 min."),
+          V("Complete Transformers For NLP Deep Learning One Shot (Krish Naik)", "3bPhDUSAUYI", "5 hours, with handwritten notes. Reference only; dip into the parts that did not click."),
         ],
         build: [
           "Implement scaled dot-product attention in NumPy. Print and check the shape at every step.",
@@ -265,6 +301,7 @@ WEEKS.push(
         t: "Pretraining, fine-tuning and alignment",
         why: "Know what each training stage does so you can choose between prompting, fine-tuning and retrieval for a given problem.",
         main: [
+          V("[1hr Talk] Intro to Large Language Models (Andrej Karpathy)", "zjkBMFhNj_g", "60 min. The best single overview. Watch before the longer ones."),
           V("State of GPT (Karpathy)", "bZQun8Y4L2A", "42 min. The pipeline from pretraining to RLHF."),
           V(
             "Deep Dive into LLMs like ChatGPT (Karpathy)",
@@ -286,6 +323,9 @@ WEEKS.push(
             "https://arxiv.org/abs/2305.18290",
             "Skim the abstract and the loss. It replaces a separate reward model.",
           ),
+          V("LoRA: Low-Rank Adaptation, explained visually with PyTorch code (Umar Jamil)", "PXWYUTMt-AU", "27 min."),
+          V("Steps to fine-tune LLaMA 2 with a custom dataset using LoRA and QLoRA (Krish Naik)", "Vg3dS-NLUT4", "27 min. A runnable walkthrough to compare with your own script."),
+          V("Direct Preference Optimization (DPO) explained (Umar Jamil)", "hvGa5Mba4c8", "49 min. Optional: the math behind preference tuning."),
         ],
         build: [
           "Pick a narrow task, for example turning free text into your own JSON schema. Write 150 training and 30 held-out examples by hand or with a model, and check every one.",
@@ -336,6 +376,8 @@ WEEKS.push(
             "https://github.com/ggml-org/llama.cpp",
             "Run a quantized model on your laptop. Ollama (https://ollama.com/) is the easier front end.",
           ),
+          V("Quantization explained with PyTorch (Umar Jamil)", "0VdNflU08yA", "51 min. Post-training quantization and what 8-bit and 4-bit mean."),
+          D("Introduction to LLMs (Google for Developers)", "https://developers.google.com/machine-learning/crash-course/llm", "Google's ML Crash Course module on LLMs, including inference cost."),
         ],
         build: [
           "Run a 1B to 3B model locally with Ollama or llama.cpp. Measure time to first token and tokens per second for three prompt lengths and two quantization levels.",
@@ -372,6 +414,11 @@ WEEKS.push(
         t: "Calling models well: prompts and structured output",
         why: "Most of an LLM feature is making the output predictable enough to build on. Start with clear prompts and validated, typed results.",
         main: [
+          V("Prompt engineering for developers (Google Cloud Tech)", "I0DBxnTlaMw", "8 min. Start here."),
+          R("Prompt Engineering (Google whitepaper)", "https://www.kaggle.com/whitepaper-prompt-engineering", "Zero-shot to chain-of-thought, and the sampling settings (temperature, top-k, top-p). The examples use Gemini; they work with any model."),
+          D("Prompting strategies (Gemini API docs)", "https://ai.google.dev/gemini-api/docs/prompting-strategies", "Google's counterpart to the Claude guide below. Read both; the advice agrees."),
+          D("Structured output (Gemini API docs)", "https://ai.google.dev/gemini-api/docs/structured-output", "JSON schemas as a constraint. Compare with validating after the fact with Pydantic."),
+          V("Gemini API with Python: Getting Started (Patrick Loeber)", "qfWpPEgea2A", "12 min. A free key is enough for this week; use whichever provider you have."),
           D(
             "Prompt engineering overview (Claude docs)",
             "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
@@ -422,6 +469,9 @@ WEEKS.push(
         t: "Tools and agents",
         why: "Tool use turns a text generator into a component that can act. It also adds the failure modes you worry about in any distributed system.",
         main: [
+          V("Andrew Ng Explores The Rise Of AI Agents And Agentic Reasoning", "KrRD7r7y7NY", "27 min. Reflection, tool use, planning and multi-agent patterns."),
+          V("Function calling with the Gemini API (Google Cloud Tech)", "mVXrdvXplj0", "3 min."),
+          D("Function calling (Gemini API docs)", "https://ai.google.dev/gemini-api/docs/function-calling", "The same tool loop as the Claude docs below, with Google's names."),
           R(
             "Building effective agents (Anthropic)",
             "https://www.anthropic.com/engineering/building-effective-agents",
@@ -447,6 +497,9 @@ WEEKS.push(
             "https://modelcontextprotocol.io/",
             "A standard way to expose tools and data to models. Read the introduction.",
           ),
+          R("Agents (Google whitepaper)", "https://www.kaggle.com/whitepaper-agents", "Models, tools and the orchestration layer. Read the overview and the tools section."),
+          V("Updated LangChain V1 Crash Course: Build Autonomous Agents (Krish Naik)", "vzJOAnwIokM", "2h32. Optional, and after you have written the loop yourself: see what a framework hides."),
+          L("Agentic AI playlist (Krish Naik)", "https://www.youtube.com/playlist?list=PLZoTAELRMXVMBr14UQ30AFlnlQ7eL5wjl", "LangGraph and agent projects, for later."),
         ],
         build: [
           "Write an agent loop from scratch with no framework: send messages, run requested tools, return results, stop on a final answer or a step limit.",
@@ -472,6 +525,8 @@ WEEKS.push(
         t: "Evals, safety and cost",
         why: "Without tests you cannot change a prompt or a model with confidence. Evals are the unit tests of LLM software.",
         main: [
+          V("AI Evaluations Clearly Explained in 50 Minutes (Hamel Husain)", "uiza7wp1KrE", "52 min. A real example, start to finish."),
+          V("LLM Evals: Common Mistakes (Hamel Husain)", "GL0XhAj5LPE", "28 min."),
           R(
             "Your AI product needs evals (Hamel Husain)",
             "https://hamel.dev/blog/posts/evals/",
@@ -497,6 +552,8 @@ WEEKS.push(
             "https://platform.claude.com/docs/en/build-with-claude/prompt-caching",
             "A large cost and latency lever for repeated prefixes.",
           ),
+          V("Run LLM Evals with Pytest and LangSmith (LangChain)", "2n3IUg97paE", "16 min. The pytest shape for your CI job."),
+          V("Mastering LLM Chatbots And RAG Evaluation Crash Course (Krish Naik)", "NebOSOTp-zA", "66 min. Optional; useful again in week 15."),
         ],
         build: [
           "Build an eval set of 30 cases for your extraction CLI or agent: some checked by code, some by an LLM judge with a written rubric.",
@@ -547,6 +604,7 @@ WEEKS.push(
             "https://huyenchip.com/2024/07/25/genai-platform.html",
             "Gateway, guardrails, caching and observability in one picture.",
           ),
+          V("Detailed LLMOps Project Lifecycle (Krish Naik)", "eVRLh08jDoo", "15 min. How the serving pieces fit with prompts, evals and monitoring."),
         ],
         build: [
           "With FastAPI and asyncio, build a gateway endpoint that streams tokens to the client over SSE from an upstream model. Pass the client's cancellation through to the upstream call.",
@@ -583,6 +641,10 @@ WEEKS.push(
         t: "Embeddings and vector search",
         why: "Retrieval quality sets the ceiling for a RAG system. Understand what an embedding is and what an approximate index trades away.",
         main: [
+          V("How to use Retrieval Augmented Generation (RAG) (Google Cloud Tech)", "oVtlp72f9NQ", "7 min. The whole pipeline in one picture before you build the parts."),
+          V("Word Embedding and Word2Vec, Clearly Explained (StatQuest)", "viZrOnJclY0", "16 min."),
+          V("Cosine Similarity, Clearly Explained (StatQuest)", "e9U0QAFbfLI", "10 min."),
+          D("Embeddings (Google Machine Learning Crash Course)", "https://developers.google.com/machine-learning/crash-course/embeddings", "Short and interactive."),
           R(
             "The Illustrated Word2vec (Jay Alammar)",
             "https://jalammar.github.io/illustrated-word2vec/",
@@ -608,6 +670,9 @@ WEEKS.push(
             "https://github.com/pgvector/pgvector",
             "Read the HNSW and IVFFlat sections. Your database in week 7 and 8 is the model for this.",
           ),
+          V("Vector Database Search: HNSW Explained (DataMListic)", "77QH0Y2PYKg", "8 min. Read the paper after this, not before."),
+          D("Embeddings (Gemini API docs)", "https://ai.google.dev/gemini-api/docs/embeddings", "Task types and output sizes, if you use a hosted embedding model."),
+          V("Getting started with a RAG pipeline using LangChain, Chroma and FAISS (Krish Naik)", "9Thc6hRw2Gs", "30 min. Optional: the framework version of tomorrow's build."),
         ],
         build: [
           "Embed about 2,000 text chunks with a small local model. Implement exact top-k search with cosine similarity in NumPy.",
@@ -633,6 +698,9 @@ WEEKS.push(
         t: "Ingestion, chunking, hybrid search and reranking",
         why: "Most RAG failures are retrieval failures. Chunking, keyword search, fusion and reranking are the levers you have.",
         main: [
+          V("BM25 Algorithm and Hybrid Search: AI Explained (Tejas Kumar)", "lD3_VF5bmWg", "10 min."),
+          V("How Retrieval and Reranking works in RAG: Bi-Encoder vs Cross-Encoder", "aVgZE746OXw", "5 min."),
+          V("Advanced RAG techniques for developers (Google Cloud Tech)", "sGvXO7CVwc0", "8 min."),
           R(
             "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
             "https://arxiv.org/abs/2005.11401",
@@ -663,6 +731,8 @@ WEEKS.push(
             "https://arxiv.org/abs/2307.03172",
             "Why more retrieved text is not always better.",
           ),
+          V("RAG Fundamentals and Advanced Techniques, Full Course (freeCodeCamp)", "ea2W8IogX80", "1h37. Optional: chunking, query transformation and reranking in code."),
+          V("Hybrid Search RAG With LangChain And Pinecone Vector DB (Krish Naik)", "CK0ExcCWDP4", "43 min. Optional."),
         ],
         build: [
           "Ingest a real documentation set (for example the Postgres or Python docs). Keep source URL, title, heading path and a content hash with every chunk.",
@@ -713,6 +783,9 @@ WEEKS.push(
             "wd7TZ4w1mSw",
             "Overview. The rest of the playlist is optional.",
           ),
+          V("Learn RAG From Scratch, Python AI Tutorial from a LangChain Engineer (freeCodeCamp)", "sVcwVQRHIc8", "2h33. Optional: watch the query-translation and generation sections."),
+          V("Complete RAG Crash Course With LangChain (Krish Naik)", "o126p1QN_RI", "2h08. Optional; a second take on the full pipeline."),
+          R("RAG reference architectures (Google Cloud)", "https://cloud.google.com/architecture/rag-reference-architectures", "Compare Google's architecture diagrams with the one you are building."),
         ],
         build: [
           "Build an /ask endpoint: retrieve, number the sources in the prompt, require every claim to cite a source, and return the cited chunk IDs with the answer.",
@@ -738,6 +811,7 @@ WEEKS.push(
         t: "Evaluating RAG honestly",
         why: "You cannot improve what you cannot measure. Separate retrieval quality from answer quality and test one change at a time.",
         main: [
+          V("RAG Evaluation: Precision, Recall, Faithfulness, RAGAS Explained Clearly", "7_LTU0LA374", "12 min. The metrics in words before the library."),
           D(
             "Ragas: available metrics",
             "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/",
@@ -824,6 +898,7 @@ WEEKS.push(
             "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
             "Enforce access on the server, on every request.",
           ),
+          V("Production RAG with LangChain & Vector Databases, Full Course (freeCodeCamp)", "mHxLXzYjQRE", "7h38. Reference only: dip into ingestion, caching and deployment."),
         ],
         build: [
           "Make ingestion incremental: re-embed only chunks whose content hash changed, and delete chunks for removed documents. Test that running it twice changes nothing.",
@@ -849,6 +924,8 @@ WEEKS.push(
         t: "ML systems and production",
         why: "A model in a notebook is not a product. Learn what changes when it serves real traffic and how you notice it getting worse.",
         main: [
+          V("Introduction to MLOps and Vertex Pipelines (Google Cloud Tech)", "Jrh-QLrVCvM", "8 min. Start here."),
+          D("Production ML systems (Google Machine Learning Crash Course)", "https://developers.google.com/machine-learning/crash-course/production-ml-systems", "Static versus dynamic training, monitoring, and what to log."),
           R(
             "Hidden technical debt in machine learning systems",
             "https://papers.nips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html",
@@ -869,6 +946,9 @@ WEEKS.push(
             "https://fastapi.tiangolo.com/",
             "A small typed HTTP service around Python code, with health endpoints.",
           ),
+          V("End To End MLOps Data Science Project Implementation With Deployment (Krish Naik)", "pxk1Fr33-L4", "2h32. Optional: a full project with DVC, MLflow and deployment."),
+          V("Docker vs Kubernetes vs Docker Swarm (TechWorld with Nana)", "9_s3h_GVzZc", "6 min. Know what Kubernetes is for; the capstone needs only Compose."),
+          L("MLOps playlist (Krish Naik)", "https://www.youtube.com/playlist?list=PLZoTAELRMXVOk1pRcOCaG5xtXxgMalpIe", "For later."),
         ],
         build: [
           "Wrap your RAG service in a FastAPI app with liveness and readiness endpoints, and a Dockerfile that runs as a non-root user.",
@@ -956,9 +1036,9 @@ WEEKS.push(
         swe: {
           t: "Write the retrospective",
           link: R(
-            "How to write a good postmortem (Google SRE workbook)",
-            "https://sre.google/workbook/postmortem-culture/",
-            "Blameless, specific, actionable.",
+            "Example postmortem (Google SRE book)",
+            "https://sre.google/sre-book/example-postmortem/",
+            "A complete one. Blameless, specific, actionable: copy the shape.",
           ),
         },
         ask: [

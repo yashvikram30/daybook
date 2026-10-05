@@ -12,7 +12,9 @@ export type NavPhase = { slug: string; name: string; language: string; weeks: Na
 // The header carries these on wide screens; the drawer shows them on phones.
 const QUICK = [
   { href: "/plan", label: "Plan" },
+  { href: "/foundations", label: "Part 0: Foundations (optional)" },
   { href: "/python", label: "Learn Python" },
+  { href: "/revise", label: "Revise" },
   { href: "/notes", label: "Notes" },
   { href: "/schedule", label: "Schedule" },
   { href: "/settings", label: "Settings" },

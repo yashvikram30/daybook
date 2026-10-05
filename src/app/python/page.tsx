@@ -25,10 +25,12 @@ export default async function PythonPage() {
       </nav>
       <h1>Learn Python along the way</h1>
       <p className="lead">
-        You do not need to know Python, or any programming, first. The first three days start from the basics
-        (values, strings, if and loops, functions, files) with a short warm-up each day. For the first four
-        weeks every day opens with one Python lesson, and the day&apos;s build puts it straight to work. By
-        week 5 Python is simply the language you write in. Python is the only language in the plan.
+        You do not need to know Python, or any programming, first. If you are new to programming, the optional
+        four-week <Link href="/foundations">Part 0: Python Foundations</Link> is for you: freeCodeCamp,
+        Google&apos;s Python Class and a video course, one step at a time. After that, for the first four
+        weeks of the main plan every day opens with one Python lesson, and the day&apos;s build puts it
+        straight to work. By week 5 Python is simply the language you write in. Python is the only language in
+        the plan.
       </p>
 
       <h2 id="how">How a Python lesson works</h2>
@@ -72,6 +74,9 @@ export default async function PythonPage() {
                   </a>
                 </span>
               ))}
+            </p>
+            <p className="pyready">
+              <b>If you did Foundations:</b> {s.covered}
             </p>
             <p className="pyready">
               <b>Ready when:</b> {s.ready}

@@ -1,5 +1,6 @@
 import type { SearchEntry } from "@/components/search-dialog";
 import type { NavPhase } from "@/components/nav-tree";
+import { FOUNDATION_DAYS, foundationHref } from "@/data/foundations";
 import { MONTHS } from "@/data/months";
 import { dayHref, type Curriculum } from "./curriculum-types";
 
@@ -30,6 +31,12 @@ export function buildSearch(c: Curriculum): SearchEntry[] {
     { href: "/", title: "Today", sub: "Page", text: "dashboard continue" },
     { href: "/plan", title: "Plan overview", sub: "Page", text: "how a day works rules setup" },
     { href: "/schedule", title: "Schedule", sub: "Page", text: "dates start reschedule" },
+    {
+      href: "/foundations",
+      title: "Python Foundations",
+      sub: "Part 0, optional",
+      text: "optional skip start here beginners first time python from scratch freecodecamp google python class basics",
+    },
     {
       href: "/python",
       title: "Learn Python",
@@ -70,5 +77,11 @@ export function buildSearch(c: Curriculum): SearchEntry[] {
     sub: "Optional monthly review",
     text: `revise review practice exercises flashcards month ${m.title}`,
   }));
-  return [...pages, ...weeks, ...days, ...labs, ...months];
+  const foundations = FOUNDATION_DAYS.map((d) => ({
+    href: foundationHref(d.week, d.n),
+    title: d.title,
+    sub: `Python Foundations, week ${d.week}, day ${d.n}`,
+    text: [d.why, d.goal, ...d.learn.map((i) => i.title), ...d.practice.map((i) => i.title)].join(" "),
+  }));
+  return [...pages, ...foundations, ...weeks, ...days, ...labs, ...months];
 }

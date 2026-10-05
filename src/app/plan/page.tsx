@@ -24,6 +24,9 @@ export default async function PlanPage() {
       <p>
         <Link className="btn primary" href="/day/1/1">
           Begin day 1
+        </Link>{" "}
+        <Link className="btn" href="/foundations">
+          Optional Part 0: Python Foundations (new to programming?)
         </Link>
       </p>
 
@@ -140,12 +143,19 @@ export default async function PlanPage() {
 
       <h2 id="python">Python first, from the basics</h2>
       <p>
-        The whole plan is written in Python, including the architecture and operating-systems weeks. Each of
-        the first sixteen days opens with one numbered Python lesson (the official tutorial, then PEP 8 and
-        pytest, in that order), so you learn the language while you use it. The first three days also start
-        from the basics, with a short warm-up. Python is the only language in the plan; where it hides the
-        machine, built-in modules such as <code>ctypes</code>, <code>dis</code> and <code>mmap</code> show
-        what is underneath. <Link href="/python">See the Python path</Link>.
+        The whole plan is written in Python, including the architecture and operating-systems weeks. The
+        operating-systems days pair the OSTEP chapters with Neso Academy and Gate Smashers videos, so the
+        textbook algorithms (scheduling, page replacement, banker&apos;s algorithm, disk scheduling) are all
+        covered and each one gets a small simulator. The networking days do the same with Neso Academy and
+        Gate Smashers: Ethernet and ARP, subnetting, routing algorithms, ARQ protocols and the TCP header. The
+        database and distributed-systems days add Gate Smashers for the textbook algorithms (serializability,
+        locking, joins, quorums), and the machine learning and generative AI weeks pair papers with StatQuest,
+        Krish Naik, Karpathy, 3Blue1Brown and Google&apos;s own ML and Gemini material. Each of the first
+        sixteen days opens with one numbered Python lesson (the official tutorial, then PEP 8 and pytest, in
+        that order), so you learn the language while you use it. The first three days also start from the
+        basics, with a short warm-up. Python is the only language in the plan; where it hides the machine,
+        built-in modules such as <code>ctypes</code>, <code>dis</code> and <code>mmap</code> show what is
+        underneath. <Link href="/python">See the Python path</Link>.
       </p>
 
       <h2 id="lab">The optional fifth day</h2>
