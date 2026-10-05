@@ -1,0 +1,410 @@
+/*
+  Motion. Everything here is additive and loaded last, so removing the import removes the animation.
+  Three ideas, borrowed from how Apple's sites move:
+  1. Interactions answer you at once and settle with a little spring (press, check, open).
+  2. Things arrive on one orchestrated beat (the landing hero) instead of everywhere at once.
+  3. Scroll drives some motion directly, in CSS, so it stays locked to your finger.
+  Reduced-motion users get none of it; see the block at the bottom.
+*/
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-apple: cubic-bezier(0.32, 0.72, 0, 1);
+  /* A spring sampled into linear(): overshoots slightly, then settles. */
+  --spring: linear(
+    0,
+    0.2178 2.1%,
+    1.1144 8.7%,
+    1.2959 12.1%,
+    1.2894 13.2%,
+    1.1829 17.1%,
+    1.0267 24.2%,
+    0.9738 28.4%,
+    0.9588 31.7%,
+    0.9654 35.5%,
+    0.9897 42.4%,
+    1.0034 50.6%,
+    1.0048 57.9%,
+    0.9996 76.4%,
+    1
+  );
+}
+
+/* ---------- press and hover ---------- */
+.btn,
+.icon-btn,
+.search-btn,
+.top-links a,
+.nav a,
+.brain-list li a,
+.search-dlg li a {
+  transition:
+    background-color 0.25s var(--ease-out),
+    color 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out),
+    box-shadow 0.4s var(--ease-out),
+    transform 0.5s var(--spring);
+}
+.btn:active,
+.search-btn:active {
+  transform: scale(0.97);
+}
+.icon-btn:active {
+  transform: scale(0.9);
+}
+.nav a:active,
+.brain-list li a:active {
+  transform: scale(0.985);
+}
+.pager a,
+.tile,
+.lab-card,
+.steplist a,
+.roadmap a,
+.stack a,
+.daylist a {
+  transition:
+    transform 0.55s var(--ease-out),
+    box-shadow 0.55s var(--ease-out),
+    background-color 0.25s var(--ease-out);
+}
+@media (hover: hover) {
+  .btn.primary:hover,
+  .btn.hot:hover {
+    transform: translateY(-1px);
+  }
+  .pager a:hover,
+  .tile:hover,
+  .lab-card:hover,
+  .steplist a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgb(0 0 0 / 0.14);
+  }
+  .roadmap a:hover {
+    transform: translateY(-2px) scale(1.04);
+  }
+}
+.pager a:active,
+.tile:active,
+.lab-card:active,
+.steplist a:active {
+  transform: scale(0.985);
+  transition-duration: 0.12s;
+}
+.ulink {
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.45s var(--ease-out);
+}
+.ulink:hover {
+  background-size: 100% 1px;
+}
+
+/* ---------- checkboxes: the box fills, the tick springs in ---------- */
+.ck {
+  transition:
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    transform 0.4s var(--spring);
+}
+.ck:active {
+  transform: scale(0.82);
+}
+.ck::after {
+  content: "";
+  width: 4px;
+  height: 9px;
+  border: solid var(--on-accent);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) translate(-1px, -1px) scale(0);
+  opacity: 0;
+  transition:
+    transform 0.4s var(--spring),
+    opacity 0.12s linear;
+}
+.ck:checked::after {
+  transform: rotate(45deg) translate(-1px, -1px) scale(1);
+  opacity: 1;
+}
+.row .ttl a,
+.row .task,
+.md li.task span {
+  transition: color 0.3s var(--ease-out);
+}
+
+/* ---------- progress ---------- */
+.bar > span,
+.complete-bar span {
+  transition: width 0.9s var(--ease-out);
+}
+
+/* ---------- header: Apple-style frosted bar ---------- */
+.top {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .top {
+      border-bottom-color: transparent;
+      animation: top-edge linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 56px;
+    }
+    @keyframes top-edge {
+      to {
+        border-bottom-color: color-mix(in srgb, var(--line) 80%, transparent);
+      }
+    }
+  }
+}
+
+/* ---------- sidebar ---------- */
+.nv-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.45s var(--ease-apple),
+    opacity 0.3s var(--ease-out);
+}
+.nv-collapse.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.nv-days li {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.45s var(--ease-out);
+}
+.nv-collapse.open .nv-days li {
+  opacity: 1;
+  transform: none;
+  transition-delay: calc(var(--i, 0) * 35ms + 60ms);
+}
+.nv-days li:nth-child(1) {
+  --i: 0;
+}
+.nv-days li:nth-child(2) {
+  --i: 1;
+}
+.nv-days li:nth-child(3) {
+  --i: 2;
+}
+.nv-days li:nth-child(4) {
+  --i: 3;
+}
+.nv-days li:nth-child(n + 5) {
+  --i: 4;
+}
+.nv-chev::before {
+  transition: transform 0.4s var(--ease-apple);
+}
+.nv-row.open .nv-chev::before {
+  transform: rotate(45deg);
+}
+@media (max-width: 900px) {
+  .nav {
+    transition: transform 0.55s var(--ease-apple);
+  }
+  .scrim {
+    display: block;
+    position: fixed;
+    inset: var(--top) 0 0 0;
+    z-index: 35;
+    background: rgb(10 14 20 / 0.45);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.45s var(--ease-apple),
+      visibility 0.45s;
+  }
+  .scrim.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+/* ---------- search: scales in like Spotlight ---------- */
+.search-dlg {
+  opacity: 0;
+  transform: translateY(-14px) scale(0.965);
+  transition:
+    opacity 0.22s var(--ease-out),
+    transform 0.5s var(--ease-apple),
+    overlay 0.5s allow-discrete,
+    display 0.5s allow-discrete;
+}
+.search-dlg[open] {
+  opacity: 1;
+  transform: none;
+}
+@starting-style {
+  .search-dlg[open] {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.965);
+  }
+}
+.search-dlg::backdrop {
+  background: rgb(10 14 20 / 0);
+  backdrop-filter: blur(0);
+  transition:
+    background-color 0.4s var(--ease-out),
+    backdrop-filter 0.4s var(--ease-out),
+    overlay 0.4s allow-discrete,
+    display 0.4s allow-discrete;
+}
+.search-dlg[open]::backdrop {
+  background: rgb(10 14 20 / 0.45);
+  backdrop-filter: blur(6px);
+}
+@starting-style {
+  .search-dlg[open]::backdrop {
+    background: rgb(10 14 20 / 0);
+    backdrop-filter: blur(0);
+  }
+}
+
+/* ---------- toasts ---------- */
+.toast {
+  animation: toast-spring 0.6s var(--spring) both;
+}
+@keyframes toast-spring {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.94);
+  }
+}
+
+/* ---------- review round: each question slides in ---------- */
+.round.live,
+.round.done {
+  animation: card-in 0.55s var(--ease-out) both;
+}
+@keyframes card-in {
+  from {
+    opacity: 0;
+    transform: translateX(18px);
+  }
+}
+.note-preview,
+.editor .md {
+  animation: fade-up 0.4s var(--ease-out) both;
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* ---------- page changes: the content crossfades and lifts; header and sidebar stay put ---------- */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.45s;
+  animation-timing-function: var(--ease-out);
+}
+::view-transition-old(.page) {
+  animation: 0.16s var(--ease-out) both vt-out;
+}
+::view-transition-new(.page) {
+  animation: 0.6s var(--ease-out) 0.05s both vt-in;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+::view-transition {
+  pointer-events: none;
+}
+
+/* ---------- landing: one orchestrated entrance, then scroll takes over ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1,
+  .hero .sub,
+  .hero .cta-row,
+  .stack li,
+  .stack-cap,
+  .today-card {
+    animation: rise 1s var(--ease-out) both;
+  }
+  .hero .sub {
+    animation-delay: 0.1s;
+  }
+  .hero .cta-row {
+    animation-delay: 0.2s;
+  }
+  .stack li {
+    animation-delay: calc(0.15s + var(--k, 0) * 70ms);
+    animation-duration: 1.1s;
+  }
+  .stack-cap {
+    animation-delay: 0.8s;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(28px);
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    /* The hero stack drifts away as you scroll past it. */
+    .stack {
+      animation: stack-away linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 70vh;
+    }
+    @keyframes stack-away {
+      to {
+        transform: translateY(-36px) scale(0.95);
+        opacity: 0.35;
+      }
+    }
+    /* Sections settle into place as they enter. */
+    .landing .section .wrap > h2,
+    .landing .section-lead,
+    .landing .demo,
+    .landing .feature .copy,
+    .landing .mock,
+    .landing .roadmap,
+    .landing .tiles,
+    .landing .cta-band .wrap {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 4% entry 48%;
+    }
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.985);
+      }
+    }
+  }
+}
+
+/* ---------- reduced motion: no movement, instant state changes ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,270 @@
+/* ---------- focus mode: only the page ---------- */
+.shell[data-focus="on"] .top,
+.shell[data-focus="on"] .nav,
+.shell[data-focus="on"] .toc,
+.shell[data-focus="on"] .scrim {
+  display: none;
+}
+.shell[data-focus="on"] .layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+.shell[data-focus="on"] main {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 880px;
+  padding-top: 56px;
+}
+.focus-exit {
+  position: fixed;
+  top: 12px;
+  right: 14px;
+  z-index: 31;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px 0 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-soft) 90%, transparent);
+  color: var(--muted);
+  font: 500 13px var(--sans);
+  backdrop-filter: blur(8px);
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.focus-exit:hover,
+.focus-exit:focus-visible {
+  opacity: 1;
+  color: var(--text);
+}
+.focus-exit svg,
+.icon-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ---------- quick capture: the mini second brain ---------- */
+.qc-tab {
+  --qcw: min(380px, 100vw);
+  position: fixed;
+  right: 0;
+  top: 50%;
+  z-index: 46;
+  translate: 0 -50%;
+  display: grid;
+  place-items: center;
+  gap: 2px;
+  width: 26px;
+  height: 64px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-right: 0;
+  border-radius: 12px 0 0 12px;
+  background: var(--panel);
+  color: var(--accent-text);
+  box-shadow: -2px 2px 10px rgb(0 0 0 / 0.08);
+  transition:
+    right 0.22s ease,
+    background 0.15s;
+}
+.qc-tab:hover {
+  background: var(--accent-soft);
+}
+.qc-tab.open {
+  right: var(--qcw);
+}
+.qc-tab svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.qc-tab b {
+  font: 700 11px var(--sans);
+  min-width: 16px;
+  padding: 1px 4px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  text-align: center;
+}
+.qc-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  width: min(380px, 100vw);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  border-left: 1px solid var(--line);
+  box-shadow: -8px 0 28px rgb(0 0 0 / 0.14);
+  transform: translateX(104%);
+  visibility: hidden;
+  transition:
+    transform 0.22s ease,
+    visibility 0s 0.22s;
+}
+.qc-panel.open {
+  transform: none;
+  visibility: visible;
+  transition: transform 0.22s ease;
+}
+.qc-panel.over {
+  outline: 2px dashed var(--accent);
+  outline-offset: -8px;
+}
+.qc-panel > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 14px 10px 18px;
+  border-bottom: 1px solid var(--line);
+}
+.qc-panel h2 {
+  margin: 0;
+  font: 600 16px var(--serif);
+}
+.qc-panel > header p {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.qc-add {
+  padding: 14px 18px 10px;
+  display: grid;
+  gap: 10px;
+}
+.qc-add textarea {
+  width: 100%;
+  min-height: 96px;
+  resize: vertical;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg-soft);
+  color: var(--text);
+  font: 14px/1.5 var(--sans);
+}
+.qc-add textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.qc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.qc-actions .btn {
+  min-height: 34px;
+  padding: 0 14px;
+  font-size: 14px;
+}
+.qc-actions small {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+.qc-list {
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  padding: 4px 18px 12px;
+  list-style: none;
+  overflow-y: auto;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+.qc-empty {
+  margin: 0;
+  padding: 8px 18px 24px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.qc-panel > footer {
+  padding: 12px 18px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.qc-clip {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  font-size: 14px;
+  min-width: 0;
+}
+.qc-clip p {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.qc-clip a {
+  overflow-wrap: anywhere;
+}
+.qc-clip.link {
+  border-left: 3px solid var(--accent);
+}
+.qc-clip img {
+  display: block;
+  max-width: 100%;
+  max-height: 260px;
+  margin: 0 auto 8px;
+  border-radius: 6px;
+  background: #fff;
+}
+.qc-clip.wide img {
+  max-height: 480px;
+}
+.qc-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* ---------- a day's captures inside the second brain ---------- */
+.clips-view .qc-list {
+  padding: 8px 0 0;
+  overflow: visible;
+}
+.clips-view .qc-clip {
+  background: var(--bg-soft);
+}
+
+@media print {
+  .qc-tab,
+  .qc-panel,
+  .focus-exit {
+    display: none;
+  }
+}
+
+/* Account entry in the header */
+.account-btn {
+  padding: 0.3rem 0.8rem;
+}
+.account-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--accent, #2f6f5e);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
