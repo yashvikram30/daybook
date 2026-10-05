@@ -7,6 +7,7 @@ import { labFor, labKey } from "@/data/labs";
 import { MONTHS, monthExercises, monthFor, monthWeeks } from "@/data/months";
 import { getCurriculum } from "@/lib/curriculum";
 import { dayHref } from "@/lib/curriculum-types";
+import { DSA_ENABLED } from "@/lib/day-steps";
 
 export function generateStaticParams() {
   return MONTHS.map((m) => ({ m: String(m.month) }));
@@ -45,7 +46,7 @@ export default async function MonthPage({ params }: PageProps<"/month/[m]">) {
   const problems: LabProblem[] = upTo.flatMap((w) =>
     w.days.flatMap((d) =>
       d.items
-        .filter((i) => i.section === "dsa_problem")
+        .filter((i) => DSA_ENABLED && i.section === "dsa_problem")
         .map((i) => ({
           key: i.key,
           title: i.title,

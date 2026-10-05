@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { LabClient, type LabCard, type LabProblem } from "@/components/lab-client";
 import { getCurriculum } from "@/lib/curriculum";
 import { dayHref } from "@/lib/curriculum-types";
+import { DSA_ENABLED } from "@/lib/day-steps";
 import { labFor } from "@/data/labs";
 
 export async function generateStaticParams() {
@@ -45,7 +46,7 @@ export default async function LabPage({ params }: PageProps<"/week/[n]/lab">) {
   const problems: LabProblem[] = upTo.flatMap((w) =>
     w.days.flatMap((d) =>
       d.items
-        .filter((i) => i.section === "dsa_problem")
+        .filter((i) => DSA_ENABLED && i.section === "dsa_problem")
         .map((i) => ({
           key: i.key,
           title: i.title,

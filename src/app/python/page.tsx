@@ -39,7 +39,6 @@ export default async function PythonPage() {
         </li>
         <li>The Build page uses it the same day, so you write Python before you forget it.</li>
         <li>Each stage below ends with a check you can do on your own, before you move on.</li>
-        <li>The DSA track is in Python too, so the practice never stops.</li>
       </ul>
 
       <h2 id="stages">The stages</h2>

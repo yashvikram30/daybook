@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getCurriculum } from "@/lib/curriculum";
+import { DSA_ENABLED } from "@/lib/day-steps";
 
 export const metadata: Metadata = { title: "Plan overview" };
 
@@ -14,7 +15,8 @@ export default async function PlanPage() {
     <article>
       <h1>From the machine up to production systems and generative AI</h1>
       <p className="quiet">
-        {c.weeks.length} weeks · 4 days a week · about 3 hours a day · {dayCount} days in all
+        {c.weeks.length} weeks · 4 days a week · about {DSA_ENABLED ? 3 : 2} hours a day · {dayCount} days in
+        all
       </p>
       <p className="lead">
         Each layer rests on the one below it. Every subject ends in something you build, break and explain.
@@ -26,16 +28,21 @@ export default async function PlanPage() {
       </p>
 
       <h2 id="day">How a day works</h2>
-      <p>Each day is five short pages, one topic on each: learn, build, DSA, engineering and a check.</p>
+      <p>
+        Each day is {DSA_ENABLED ? "five" : "four"} short pages, one topic on each: learn, build,{" "}
+        {DSA_ENABLED && "DSA, "}engineering and a check.
+      </p>
       <div className="cols">
-        <div>
-          <h3>DSA, 1 hour</h3>
-          <p>
-            Problems from Striver&apos;s A2Z sheet, solved in Python, in the sheet&apos;s order. Watch the
-            short lecture for the pattern first. Easy and medium problems are the target; hard ones are marked
-            as stretch.
-          </p>
-        </div>
+        {DSA_ENABLED && (
+          <div>
+            <h3>DSA, 1 hour</h3>
+            <p>
+              Problems from Striver&apos;s A2Z sheet, solved in Python, in the sheet&apos;s order. Watch the
+              short lecture for the pattern first. Easy and medium problems are the target; hard ones are
+              marked as stretch.
+            </p>
+          </div>
+        )}
         <div>
           <h3>Main track, 1 hour 45 minutes</h3>
           <p>
@@ -99,18 +106,20 @@ export default async function PlanPage() {
 
       <h2 id="tracks">Tracks that run the whole time</h2>
       <div className="cols">
-        <div>
-          <h3>DSA</h3>
-          <p>
-            Striver&apos;s A2Z sheet in its own order: sorting, arrays, hashing, binary search, strings,
-            greedy, sliding window and two pointers, stacks and queues, binary trees, binary search trees,
-            graphs and dynamic programming. About 277 problems over {dayCount} days. Two changes make it
-            spiral instead of strictly blocked: hashing comes before Two Sum, and dynamic programming comes
-            before the advanced graph days (strongly connected components, bridges, Floyd-Warshall), so the
-            most asked topics are done before the capstone. The lectures use C++ or Java; the ideas carry
-            over, and you write every solution in Python.
-          </p>
-        </div>
+        {DSA_ENABLED && (
+          <div>
+            <h3>DSA</h3>
+            <p>
+              Striver&apos;s A2Z sheet in its own order: sorting, arrays, hashing, binary search, strings,
+              greedy, sliding window and two pointers, stacks and queues, binary trees, binary search trees,
+              graphs and dynamic programming. About 277 problems over {dayCount} days. Two changes make it
+              spiral instead of strictly blocked: hashing comes before Two Sum, and dynamic programming comes
+              before the advanced graph days (strongly connected components, bridges, Floyd-Warshall), so the
+              most asked topics are done before the capstone. The lectures use C++ or Java; the ideas carry
+              over, and you write every solution in Python.
+            </p>
+          </div>
+        )}
         <div>
           <h3>Software engineering</h3>
           <p>
@@ -133,9 +142,10 @@ export default async function PlanPage() {
       <p>
         The whole plan is written in Python, including the architecture and operating-systems weeks. Each of
         the first sixteen days opens with one numbered Python lesson (the official tutorial, then PEP 8 and
-        pytest, in that order), so you learn the language while you use it. The first three days also start from the basics, with
-        a short warm-up. Python is the only language in the plan; where it hides the machine, built-in
-        modules such as <code>ctypes</code>, <code>dis</code> and <code>mmap</code> show what is underneath. <Link href="/python">See the Python path</Link>.
+        pytest, in that order), so you learn the language while you use it. The first three days also start
+        from the basics, with a short warm-up. Python is the only language in the plan; where it hides the
+        machine, built-in modules such as <code>ctypes</code>, <code>dis</code> and <code>mmap</code> show
+        what is underneath. <Link href="/python">See the Python path</Link>.
       </p>
 
       <h2 id="lab">The optional fifth day</h2>
@@ -176,11 +186,13 @@ export default async function PlanPage() {
           <b>Weekly review:</b> answer the check questions from memory before opening any notes. Mark the ones
           you could not.
         </li>
-        <li>
-          <b>DSA: attempt before you watch the solution.</b> Give each problem 20 minutes, then read or watch
-          the answer, close it, and write it again from memory. Do the hard ones after the plan if time is
-          short.
-        </li>
+        {DSA_ENABLED && (
+          <li>
+            <b>DSA: attempt before you watch the solution.</b> Give each problem 20 minutes, then read or
+            watch the answer, close it, and write it again from memory. Do the hard ones after the plan if
+            time is short.
+          </li>
+        )}
         <li>
           <b>Commit daily.</b> Your git history is the record that you did the work.
         </li>
@@ -208,7 +220,7 @@ export default async function PlanPage() {
           <a href="https://docs.astral.sh/uv/" {...ext}>
             uv
           </a>{" "}
-          and Python 3.13 on day 1 (DSA starts in Python).
+          and Python 3.13 on day 1.
         </li>
         <li>
           Run Postgres through the{" "}

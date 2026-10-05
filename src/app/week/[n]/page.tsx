@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { WeekDayList } from "@/components/week-days";
 import { LabCard, MonthCard } from "@/components/lab-card";
 import { getCurriculum } from "@/lib/curriculum";
+import { DSA_ENABLED } from "@/lib/day-steps";
 import { labFor } from "@/data/labs";
 import { MONTHS, WEEKS_PER_MONTH, monthExercises } from "@/data/months";
 
@@ -72,14 +73,16 @@ export default async function WeekPage({ params }: PageProps<"/week/[n]">) {
       )}
       <h2 id="parallel">Running in parallel</h2>
       <div className="cols">
-        <div>
-          <h3>DSA in Python</h3>
-          <ul className="plain">
-            {dsa.map((t) => (
-              <li key={t}>{t}</li>
-            ))}
-          </ul>
-        </div>
+        {DSA_ENABLED && (
+          <div>
+            <h3>DSA in Python</h3>
+            <ul className="plain">
+              {dsa.map((t) => (
+                <li key={t}>{t}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         <div>
           <h3>Engineering slot</h3>
           <ul className="plain">

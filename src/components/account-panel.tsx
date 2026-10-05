@@ -20,8 +20,8 @@ export function AccountPanel() {
     return (
       <>
         <p>
-          You are using Daybook as a guest, so everything stays in this browser. Sign in with GitHub or Google
-          to save it to your account and open it on any device.
+          You are using Daybook as a guest, so everything stays in this browser. Sign in with Google to save
+          it to your account and open it on any device.
         </p>
         <div className="row-actions">
           <Link className="btn primary" href="/signin">

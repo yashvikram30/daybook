@@ -4,6 +4,7 @@ import { Icon } from "@/components/icons";
 import { TodayView } from "@/components/today-view";
 import { getCurriculum } from "@/lib/curriculum";
 import { allDays, dayHref, hostOf, itemsOf } from "@/lib/curriculum-types";
+import { DSA_ENABLED } from "@/lib/day-steps";
 import { Markdown } from "@/lib/markdown";
 import { planDays } from "@/lib/plan-days";
 
@@ -19,7 +20,7 @@ export default async function Home() {
   const sample = days.find((d) => d.id === "w3d2") ?? days[0];
   const sampleWeek = c.weeks.find((w) => w.number === sample.weekNumber)!;
   const learn = itemsOf(sample, "learn").slice(0, 3);
-  const problems = itemsOf(sample, "dsa_problem").slice(0, 2);
+  const problems = DSA_ENABLED ? itemsOf(sample, "dsa_problem").slice(0, 2) : [];
   const layers = c.phases
     .map((p, i) => ({ p, i, weeks: c.weeks.filter((w) => w.phase === p.slug) }))
     .filter((l) => l.weeks.length > 0);
@@ -113,19 +114,23 @@ export default async function Home() {
                 <p className="eyebrow">Build</p>
                 <h3>{sampleWeek.project}</h3>
                 <p style={{ margin: "10px 0 0", color: "var(--muted)" }}>{sample.ship}</p>
-                <p className="eyebrow" style={{ marginTop: 22 }}>
-                  DSA, in Python
-                </p>
-                <ul>
-                  {problems.map((p) => (
-                    <li key={p.key}>
-                      <span className={"diff " + p.difficulty} style={{ marginTop: 4 }}>
-                        {p.difficulty}
-                      </span>
-                      <span>{p.title}</span>
-                    </li>
-                  ))}
-                </ul>
+                {DSA_ENABLED && (
+                  <>
+                    <p className="eyebrow" style={{ marginTop: 22 }}>
+                      DSA, in Python
+                    </p>
+                    <ul>
+                      {problems.map((p) => (
+                        <li key={p.key}>
+                          <span className={"diff " + p.difficulty} style={{ marginTop: 4 }}>
+                            {p.difficulty}
+                          </span>
+                          <span>{p.title}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -189,8 +194,8 @@ export default async function Home() {
         <div className="wrap">
           <h2>Sixteen weeks, start to finish.</h2>
           <p className="section-lead">
-            From machine code and assembly to databases, distributed systems and an AI system with retrieval,
-            with Striver&apos;s DSA sheet running alongside.
+            From machine code and assembly to databases, distributed systems and an AI system with retrieval
+            {DSA_ENABLED && ", with Striver's DSA sheet running alongside"}.
           </p>
           <ol className="roadmap">
             {c.weeks.map((w) => (
