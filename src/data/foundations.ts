@@ -149,13 +149,104 @@ function items(id: string, group: "l" | "p", drafts: Draft[]): Item[] {
   }));
 }
 
+/**
+ * The Learn links of each day, grouped by topic: several sources on the same idea are one optional tick. A group
+ * is [title, one line on what it is for, indexes into the day's `learn` list]; every index appears exactly once.
+ * The group is keyed by its first link, so progress saved before grouping still lines up.
+ */
+const LEARN_GROUPS: Record<string, [string, string, number[]][]> = {
+  f1d1: [
+    ["What Python is and how it runs", "The overview, and how the shell and a script differ.", [0, 4]],
+    [
+      "Install Python and run Hello World",
+      "Three walk-throughs of the same first steps. Follow one, or use two.",
+      [1, 2, 3],
+    ],
+  ],
+  f1d2: [
+    ["Variables, data types and numbers", "The same ideas from three sources.", [0, 1, 2]],
+    ["Getting input from the user", "A short video on input().", [3]],
+    ["See variables in memory", "Step through code and watch the names and values.", [4]],
+  ],
+  f1d3: [["Working with strings", "Slicing, methods and f-strings from four sources.", [0, 1, 2, 3]]],
+  f1d4: [["Booleans, comparisons and if", "The same ideas from three sources.", [0, 1, 2]]],
+  f2d1: [["Functions and scope", "Defining, calling and returning, from four sources.", [0, 1, 2, 3]]],
+  f2d2: [
+    ["Modules, help and built-in functions", "Finding what Python already gives you.", [0, 1]],
+    ["A worked calculator", "Watch someone build one step by step.", [2]],
+  ],
+  f2d3: [
+    ["Lists and loops", "The core lesson from four sources.", [0, 1, 2, 3]],
+    ["More on for and while", "Two short articles with more examples.", [4, 5]],
+  ],
+  f2d4: [
+    ["Sorting", "sorted, key= and sort().", [0]],
+    ["Tuples and the rest of sequences", "Tuples, and the remaining loops-and-sequences pages.", [1, 2]],
+  ],
+  f3d1: [["Dictionaries and sets", "The same ideas from four sources.", [0, 1, 2, 3]]],
+  f3d2: [
+    ["Reading and writing files", "Files and with open, from three sources.", [0, 2, 3]],
+    ["Modules and the standard library", "Importing and what ships with Python.", [1]],
+  ],
+  f3d3: [
+    ["Errors and exceptions", "try and except, from three sources.", [0, 1, 2]],
+    ["The debugger", "Pause a program and look inside.", [3]],
+  ],
+  f3d4: [
+    ["Regular expressions", "Patterns for text, from four sources, with a live tester.", [0, 1, 2, 3]],
+    ["Files, folders and other programs", "The os, shutil and subprocess modules.", [4]],
+  ],
+  f4d1: [["Classes and objects", "The same ideas from three sources.", [0, 1, 2]]],
+  f4d2: [
+    [
+      "Object-oriented programming",
+      "Encapsulation, inheritance and abstraction from four sources.",
+      [0, 1, 2, 3],
+    ],
+  ],
+  f4d3: [
+    ["Virtual environments and packages", "pip, venv and uv.", [0, 1]],
+    ["pytest", "Your first tests.", [2]],
+    ["Git and GitHub", "A beginner crash course.", [3]],
+    ["Fetching a web page", "urllib and utilities.", [4]],
+  ],
+  f4d4: [["Review the whole course", "A closing lecture, one review page and a handbook.", [0, 1, 2]]],
+};
+
+/** Turn a day's learn drafts into items, merging each group of links into one tick with a link list. */
+function learnItems(id: string, drafts: Draft[]): Item[] {
+  const all = items(id, "l", drafts);
+  const groups = LEARN_GROUPS[id];
+  if (!groups) return all;
+  const used = groups.flatMap((g) => g[2]).sort((a, b) => a - b);
+  if (used.length !== all.length || used.some((v, k) => v !== k))
+    throw new Error(`${id}: learn groups must cover every link exactly once`);
+  return groups.map(([title, note, idx], position) => {
+    const lead = all[Math.min(...idx)];
+    if (idx.length === 1) return { ...lead, position };
+    return {
+      ...lead,
+      title,
+      note,
+      url: null,
+      position,
+      links: idx.map((i) => ({
+        kind: all[i].kind,
+        title: all[i].title,
+        url: all[i].url!,
+        note: all[i].note,
+      })),
+    };
+  });
+}
+
 function day(
   week: number,
   n: number,
   d: Omit<FoundationDay, "id" | "week" | "n" | "learn" | "practice"> & { learn: Draft[]; practice: Draft[] },
 ): FoundationDay {
   const id = `f${week}d${n}`;
-  return { ...d, id, week, n, learn: items(id, "l", d.learn), practice: items(id, "p", d.practice) };
+  return { ...d, id, week, n, learn: learnItems(id, d.learn), practice: items(id, "p", d.practice) };
 }
 
 // Reusable lines.

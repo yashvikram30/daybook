@@ -1,7 +1,17 @@
 import { describe, expect, it } from "vitest";
+import { getNotes } from "@/lib/day-notes";
 import { FOUNDATION_DAYS, FOUNDATION_WEEKS, findFoundationDay, foundationHref } from "./foundations";
 
+const l0 = (i: { url: string | null; note: string | null }) => ({ url: i.url, note: i.note });
+
 describe("python foundations", () => {
+  it("has a written lesson for every day, so the links are only further practice", () => {
+    for (const d of FOUNDATION_DAYS) {
+      const body = getNotes(d.id).learn?.body ?? "";
+      expect(body.length, `${d.id} lesson`).toBeGreaterThan(1500);
+    }
+  });
+
   it("is four weeks of four days", () => {
     expect(FOUNDATION_WEEKS.map((w) => w.days.length)).toEqual([4, 4, 4, 4]);
     expect(FOUNDATION_DAYS).toHaveLength(16);
@@ -17,7 +27,7 @@ describe("python foundations", () => {
 
   it("gives every day something to learn, something to practise and questions to answer", () => {
     for (const d of FOUNDATION_DAYS) {
-      expect(d.learn.length, d.id).toBeGreaterThanOrEqual(3);
+      expect(d.learn.length, d.id).toBeGreaterThanOrEqual(1);
       expect(d.practice.length, d.id).toBeGreaterThanOrEqual(3);
       expect(d.check.length, d.id).toBe(3);
       expect(d.goal.length, d.id).toBeGreaterThan(20);
@@ -29,15 +39,18 @@ describe("python foundations", () => {
   it("only links to https pages, and every link item has a note on what to do", () => {
     for (const d of FOUNDATION_DAYS)
       for (const i of [...d.learn, ...d.practice]) {
-        if (i.url) {
-          expect(i.url.startsWith("https://"), `${i.key} ${i.url}`).toBe(true);
-          expect(i.note, i.key).toBeTruthy();
+        for (const l of i.links ?? [l0(i)]) {
+          if (!l.url) continue;
+          expect(l.url.startsWith("https://"), `${i.key} ${l.url}`).toBe(true);
+          expect(l.note, i.key).toBeTruthy();
         }
       }
   });
 
   it("draws on all three sources", () => {
-    const urls = FOUNDATION_DAYS.flatMap((d) => [...d.learn, ...d.practice].map((i) => i.url ?? ""));
+    const urls = FOUNDATION_DAYS.flatMap((d) =>
+      [...d.learn, ...d.practice].flatMap((i) => (i.links ? i.links.map((l) => l.url) : [i.url ?? ""])),
+    );
     expect(urls.some((u) => u.includes("developers.google.com/edu/python"))).toBe(true);
     expect(urls.some((u) => u.includes("freecodecamp.org/learn/python-v9"))).toBe(true);
     expect(urls.some((u) => u.includes("youtube.com/watch?v=rfscVS0vtbw&t="))).toBe(true);

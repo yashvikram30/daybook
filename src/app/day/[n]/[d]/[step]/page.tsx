@@ -7,7 +7,7 @@ import { StepNav } from "@/components/day-steps";
 import { getCurriculum } from "@/lib/curriculum";
 import { dayHref, type Item } from "@/lib/curriculum-types";
 import { Markdown } from "@/lib/markdown";
-import { getNotes } from "@/lib/day-notes";
+import { dedupeRefs, getNotes } from "@/lib/day-notes";
 import { findDay, itemsFor, stepInfo } from "@/lib/day-data";
 import { isStep, STEPS, stepHref } from "@/lib/day-steps";
 
@@ -52,9 +52,12 @@ export default async function StepPage({ params }: PageProps<"/day/[n]/[d]/[step
   const nextHref = nextStep ? stepHref(week.number, day.numberInWeek, nextStep.slug) : null;
 
   const notes = getNotes(day.id)[step];
+  const listed = items.flatMap((i) => [i.url, ...(i.links?.map((l) => l.url) ?? [])]).filter((u) => !!u);
+  const refs = notes?.refs ? dedupeRefs(notes.refs, listed as string[]) : "";
 
   const lead: Record<typeof step, string> = {
-    learn: "Go through these in order, or skip around. Tick each one when you are done.",
+    learn:
+      "Start with the summary: it covers what you need for today. The links after it are optional, for going deeper or practising.",
     build: "Keep it small and get it working before you make it nice.",
     dsa: day.dsaTitle,
     engineering: day.sweTitle,
@@ -109,7 +112,15 @@ export default async function StepPage({ params }: PageProps<"/day/[n]/[d]/[step
           <Notes dayId={day.id} />
         </>
       ) : (
-        <List items={items} />
+        <>
+          {step === "learn" && (
+            <>
+              <h2 className="optional-head">Go deeper (optional)</h2>
+              <p className="quiet">One block per topic. Tick a block when you have used it.</p>
+            </>
+          )}
+          <List items={items} />
+        </>
       )}
 
       {step === "build" && (
@@ -119,9 +130,9 @@ export default async function StepPage({ params }: PageProps<"/day/[n]/[d]/[step
         </div>
       )}
 
-      {notes?.refs && (
+      {refs && (
         <section className="day-refs" aria-label="Further reading">
-          <Markdown text={"# Further reading\n\n" + notes.refs} resolve={resolve} />
+          <Markdown text={"# Further reading\n\n" + refs} resolve={resolve} />
         </section>
       )}
 

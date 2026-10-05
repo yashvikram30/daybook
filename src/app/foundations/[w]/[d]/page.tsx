@@ -5,6 +5,8 @@ import { CompleteBar, ItemRow, Notes } from "@/components/day-client";
 import { DayShortcuts } from "@/components/day-shortcuts";
 import { DayStatus } from "@/components/day-steps";
 import { InlineCode } from "@/components/inline-code";
+import { getNotes } from "@/lib/day-notes";
+import { Markdown } from "@/lib/markdown";
 import {
   FOUNDATION_DAYS,
   FOUNDATION_WEEKS,
@@ -12,6 +14,8 @@ import {
   foundationHref,
   type FoundationDay,
 } from "@/data/foundations";
+
+const resolve = () => ({ href: "/notes", kind: "missing" as const });
 
 export function generateStaticParams() {
   return FOUNDATION_DAYS.map((d) => ({ w: String(d.week), d: String(d.n) }));
@@ -41,6 +45,7 @@ export default async function FoundationDayPage({ params }: PageProps<"/foundati
   const prev = FOUNDATION_DAYS[i - 1] ?? null;
   const next = FOUNDATION_DAYS[i + 1] ?? null;
   const total = day.learn.length + day.practice.length;
+  const lesson = getNotes(day.id).learn?.body;
 
   return (
     <article className="day step-page">
@@ -69,8 +74,15 @@ export default async function FoundationDayPage({ params }: PageProps<"/foundati
 
       <h2 id="learn">1. Learn</h2>
       <p className="quiet">
-        Go in this order: the gentle explanation first, then the denser one, then the video if you want it.
+        Read the lesson first. It covers what you need for today, so the links after it are optional.
       </p>
+      {lesson && (
+        <section className="day-notes" aria-label="Lesson">
+          <Markdown text={lesson} resolve={resolve} />
+        </section>
+      )}
+      <h3 className="optional-head">Go deeper (optional)</h3>
+      <p className="quiet">One block per topic. Tick a block when you have used it.</p>
       <ul className="list">
         {day.learn.map((item) => (
           <ItemRow key={item.key} item={item} />

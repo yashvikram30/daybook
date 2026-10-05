@@ -2,6 +2,9 @@
 export type Section = "learn" | "build" | "dsa_learn" | "dsa_problem" | "swe";
 export type Kind = "read" | "video" | "docs" | "lab" | "task" | "problem";
 
+/** One link inside a grouped item. A group is ticked as a whole, so its links carry no key of their own. */
+export type ItemLink = { kind: Kind; title: string; url: string; note: string | null };
+
 export type Item = {
   key: string;
   section: Section;
@@ -11,6 +14,8 @@ export type Item = {
   note: string | null;
   difficulty: "E" | "M" | "H" | null;
   position: number;
+  /** Set on a grouped item: several similar links on one topic, ticked together. Its own `url` is then null. */
+  links?: ItemLink[];
 };
 
 export type Day = {

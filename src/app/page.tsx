@@ -46,23 +46,23 @@ export default async function Home() {
       <section className="hero">
         <div className="wrap hero-grid">
           <div>
-            <h1>Learn how computers really work.</h1>
+            <h1>AI can write the code. Can you tell if it&apos;s right?</h1>
             <p className="sub">
-              Sixteen weeks that start at the machine and end at an AI system you built yourself. You write
-              Python from the first day, and learn it as you go. Each day is a few short pages: something to
-              learn, something to build, and a way to check you got it.
+              A free, open, sixteen-week course in Python. Start at the machine, end with an AI system you
+              built yourself.
             </p>
             <div className="cta-row">
               <Link className="btn primary big" href="/start">
                 Pick your start date
               </Link>
-              <Link className="ulink" href="/day/1/1">
-                Or look at day one
-              </Link>
-              <Link className="ulink" href="/foundations">
-                Optional Part 0: Python Foundations, for people new to programming
+              <Link className="btn big" href="/day/1/1">
+                Look at day one
               </Link>
             </div>
+            <p className="hero-note">
+              New to programming? Start with the optional{" "}
+              <Link href="/foundations">Part 0: Python Foundations</Link>.
+            </p>
           </div>
           <div>
             <ol className="stack" aria-label="The seven layers you will build up through">
@@ -84,6 +84,40 @@ export default async function Home() {
             </ol>
             <p className="stack-cap">Each layer sits on the one below. You build up from the bottom.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="wrap">
+          <h2>The shortcut skips the part that makes you good.</h2>
+          <p className="section-lead">
+            When an assistant answers everything, it is easy to ship code you cannot explain. Then something
+            breaks at 2am.
+          </p>
+          <ol className="why">
+            <li>
+              <span>01</span>
+              <h3>You can&apos;t review what you don&apos;t understand.</h3>
+              <p>
+                Generated code looks right. Spotting the race condition or the missing index takes the basics.
+              </p>
+            </li>
+            <li>
+              <span>02</span>
+              <h3>Debugging is still yours.</h3>
+              <p>
+                When the model is confidently wrong, you need a mental model of the machine to find out why.
+              </p>
+            </li>
+            <li>
+              <span>03</span>
+              <h3>So build each layer once.</h3>
+              <p>
+                A scheduler, a protocol, a storage engine, a RAG system. By hand, so the tools speed you up
+                instead of replacing you.
+              </p>
+            </li>
+          </ol>
         </div>
       </section>
 
@@ -203,30 +237,21 @@ export default async function Home() {
           <ol className="roadmap">
             {c.weeks.map((w) => (
               <li key={w.number} style={tone(phaseIndex.get(w.phase) ?? 0, c.phases.length)}>
-                <Link href={`/week/${w.number}`} title={w.title}>
+                <div title={w.title}>
                   <b>{w.number}</b>
                   <span>{w.title}</span>
-                </Link>
+                </div>
               </li>
             ))}
           </ol>
-          <div className="tiles">
-            {layers.map((l) => (
-              <Link key={l.p.slug} className="tile" href={`/week/${l.weeks[0].number}`}>
-                <small>{l.p.language}</small>
-                <b>{l.p.name}</b>
-                <span>{l.weeks[0].project}</span>
-              </Link>
-            ))}
-          </div>
         </div>
       </section>
 
       <section className="cta-band">
         <div className="wrap">
           <div>
-            <h2>Start with day one.</h2>
-            <p>Pick a date and you will have a schedule in under a minute.</p>
+            <h2>Learn it before you outsource it.</h2>
+            <p>Free and open. Pick a date and you will have a schedule in under a minute.</p>
           </div>
           <Link className="btn hot big" href="/start">
             Pick your start date

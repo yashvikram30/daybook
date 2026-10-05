@@ -24,7 +24,33 @@ export function ItemRow({ item }: { item: Item }) {
         onChange={(e) => setItem(item.key, e.target.checked)}
       />
       <div id={id + "-l"}>
-        {item.section === "build" ? (
+        {item.links ? (
+          <div className="grp">
+            <span className="grp-title">
+              <InlineCode text={item.title} />
+            </span>
+            {item.note && (
+              <span className="note">
+                <InlineCode text={item.note} />
+              </span>
+            )}
+            <ul className="grp-links">
+              {item.links.map((l) => (
+                <li key={l.url}>
+                  <a href={l.url} target="_blank" rel="noopener noreferrer">
+                    <InlineCode text={l.title} />
+                  </a>
+                  <span className="host">{hostOf(l.url)}</span>
+                  {l.note && (
+                    <span className="note">
+                      <InlineCode text={l.note} />
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : item.section === "build" ? (
           <span className="task">
             <InlineCode text={item.title} />
           </span>

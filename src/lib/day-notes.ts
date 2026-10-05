@@ -26,3 +26,26 @@ export function getNotes(dayId: string, dir = path.resolve(process.cwd(), "data/
   const file = path.join(dir, dayId + ".md");
   return fs.existsSync(file) ? parseNotes(fs.readFileSync(file, "utf8")) : {};
 }
+
+const normUrl = (u: string) =>
+  u
+    .replace(/^https?:\/\/(www\.)?/, "")
+    .replace(/[#?].*$/, "")
+    .replace(/\/$/, "");
+
+/** Drop reading-list lines whose link already appears as a tick item on the same page, so nothing is listed twice. */
+export function dedupeRefs(refs: string, urls: string[]): string {
+  const seen = new Set(urls.map(normUrl));
+  return refs
+    .split("\n")
+    .filter((line) => {
+      const m = /\]\((https?:[^)\s]+)\)/.exec(line);
+      if (!m) return true;
+      const u = normUrl(m[1]);
+      if (seen.has(u)) return false;
+      seen.add(u);
+      return true;
+    })
+    .join("\n")
+    .trim();
+}

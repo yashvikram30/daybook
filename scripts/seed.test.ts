@@ -53,10 +53,24 @@ describe("curriculum quality", () => {
   const of = (d: (typeof c.weeks)[number]["days"][number], section: string) =>
     d.items.filter((i) => i.section === section);
 
+  it("groups hold several links, and no link is listed twice on a day", () => {
+    for (const d of days()) {
+      const urls: string[] = [];
+      for (const i of of(d, "learn")) {
+        if (i.links) {
+          expect(i.links.length, `day ${d.globalIndex + 1} ${i.title}`).toBeGreaterThanOrEqual(2);
+          expect(i.url).toBeNull();
+          urls.push(...i.links.map((l) => l.url));
+        } else if (i.url) urls.push(i.url);
+      }
+      expect(new Set(urls).size, `day ${d.globalIndex + 1} repeats a link`).toBe(urls.length);
+    }
+  });
+
   it("every day has enough to learn, build and check", () => {
     for (const d of days()) {
       const where = `week day ${d.globalIndex + 1}: ${d.title}`;
-      expect(of(d, "learn").length, `${where} learn`).toBeGreaterThanOrEqual(3);
+      expect(of(d, "learn").length, `${where} learn`).toBeGreaterThanOrEqual(2);
       expect(of(d, "build").length, `${where} build`).toBeGreaterThanOrEqual(3);
       expect(d.questions.length, `${where} questions`).toBeGreaterThanOrEqual(2);
       expect(d.ship.length, `${where} ship`).toBeGreaterThan(10);
@@ -157,15 +171,7 @@ describe("seed into Postgres (PGlite)", () => {
       .innerJoin(schema.days, eq(schema.items.dayId, schema.days.id))
       .where(sql`${schema.days.globalIndex} = 0 and ${schema.items.section} = 'learn'`)
       .orderBy(schema.items.position);
-    expect(rows.map((r) => r.key)).toEqual([
-      "w1d1:m0",
-      "w1d1:m1",
-      "w1d1:m2",
-      "w1d1:m3",
-      "w1d1:m4",
-      "w1d1:m5",
-      "w1d1:m6",
-    ]);
+    expect(rows.map((r) => r.key)).toEqual(["w1d1:m0", "w1d1:m1", "w1d1:m4"]);
   });
   it("refuses to seed a non-empty database", async () => {
     await expect(seedCurriculum(db, c)).rejects.toThrow(/not empty/);

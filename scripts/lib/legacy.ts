@@ -13,6 +13,7 @@ export type SeedItem = {
   note: string | null;
   difficulty: "E" | "M" | "H" | null;
   position: number;
+  links?: { kind: Kind; title: string; url: string; note: string | null }[];
 };
 export type SeedDay = {
   globalIndex: number;
@@ -36,7 +37,43 @@ export type SeedWeek = {
 export type SeedPhase = { slug: string; name: string; language: string; position: number };
 export type Curriculum = { phases: SeedPhase[]; weeks: SeedWeek[] };
 
-const FILES = ["core", "weeks-01-04", "weeks-05-08", "weeks-09-11", "weeks-12-16", "dsa"];
+const FILES = ["core", "weeks-01-04", "weeks-05-08", "weeks-09-11", "weeks-12-16", "dsa", "groups"];
+
+type Link = { k: Kind; t: string; u: string; n?: string };
+
+/**
+ * The Learn page items of one day. Without groups every link is its own tick. With groups (data/legacy/groups.js)
+ * each group is one tick covering several similar links, keyed by its first link so saved progress still lines up.
+ * Every link must belong to exactly one group.
+ */
+export function learnItems(id: string, main: Link[], groups?: { t: string; n: string; i: number[] }[]) {
+  const one = (l: Link, j: number): SeedItem => ({
+    key: `${id}:m${j}`,
+    section: "learn",
+    kind: l.k,
+    title: l.t,
+    url: l.u,
+    note: l.n ?? null,
+    difficulty: null,
+    position: 0,
+  });
+  if (!groups) return main.map(one);
+  const used = groups.flatMap((g) => g.i).sort((a, b) => a - b);
+  if (used.length !== main.length || used.some((v, k) => v !== k))
+    throw new Error(`${id}: groups must cover every link exactly once`);
+  return groups.map((g): SeedItem => {
+    const lead = Math.min(...g.i);
+    if (g.i.length === 1) return one(main[lead], lead);
+    return {
+      ...one(main[lead], lead),
+      kind: main[lead].k,
+      title: g.t,
+      url: null,
+      note: g.n,
+      links: g.i.map((j) => ({ kind: main[j].k, title: main[j].t, url: main[j].u, note: main[j].n ?? null })),
+    };
+  });
+}
 
 export function loadLegacyCurriculum(dir = path.resolve(process.cwd(), "data/legacy")): Curriculum {
   const ctx: Record<string, unknown> = {};
@@ -73,7 +110,9 @@ export function loadLegacyCurriculum(dir = path.resolve(process.cwd(), "data/leg
     project: string;
     days: RawDay[];
   };
+  type RawGroup = { t: string; n: string; i: number[] };
   const dsa = ctx.DSA as RawDsa[];
+  const groups = (ctx.GROUPS ?? {}) as Record<string, RawGroup[]>;
   const weeks = (ctx.WEEKS as RawWeek[]).map((w): SeedWeek => ({
     number: w.n,
     phase: w.phase,
@@ -94,7 +133,7 @@ export function loadLegacyCurriculum(dir = path.resolve(process.cwd(), "data/leg
           difficulty: null,
           position,
         });
-      d.main.forEach((l: L, j: number) => link(`${id}:m${j}`, "learn", l, j));
+      learnItems(id, d.main, groups[id]).forEach((x, j) => items.push({ ...x, position: j }));
       d.build.forEach((t: string, j: number) =>
         items.push({
           key: `${id}:b${j}`,
