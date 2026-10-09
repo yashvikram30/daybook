@@ -140,7 +140,7 @@ export const PY_STAGES: PyStage[] = [
     sources: [
       {
         title: "Understanding the Python GIL (David Beazley)",
-        url: "https://www.dabeaz.com/python/UnderstandingGIL.pdf",
+        url: "https://www.dabeaz.com/GIL/",
       },
       { title: "gc: the garbage collector interface", url: "https://docs.python.org/3/library/gc.html" },
       { title: "concurrent.futures", url: "https://docs.python.org/3/library/concurrent.futures.html" },

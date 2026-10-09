@@ -736,7 +736,7 @@ WEEKS.push(
           ),
           R(
             "Understanding the Python GIL (David Beazley)",
-            "https://www.dabeaz.com/python/UnderstandingGIL.pdf",
+            "https://www.dabeaz.com/GIL/",
             "Why threads do not speed up CPU-bound Python, and why `counter += 1` is still a race.",
           ),
           V(
