@@ -176,8 +176,8 @@ export default async function Home() {
           <div className="copy">
             <h2>Write it down and it stays.</h2>
             <p>
-              Every day ends with a short journal. For bigger ideas there is a second brain: plain notes that
-              link to each other and to any day, with tags, checklists and a search that finds them again.
+              End each day with a short journal. Keep bigger ideas in a second brain: linked notes with tags,
+              checklists and search.
             </p>
           </div>
           <div className="mock">
@@ -209,10 +209,8 @@ export default async function Home() {
           <div className="copy">
             <h2>A fifth day, if you want it.</h2>
             <p>
-              Each week has an optional revision lab. It brings back questions you answered before, when you
-              are about to forget them, and sets four hands-on exercises: break something, measure something,
-              explain it from memory. Every month there is a longer review that also reaches back into the
-              months before it.
+              An optional weekly revision lab resurfaces what you're about to forget, then has you break
+              something, measure something and explain it from memory. Monthly reviews reach further back.
             </p>
           </div>
         </div>
