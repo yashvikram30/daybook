@@ -1,0 +1,1 @@
+Daybook: a free sixteen-week CS course in Python. AI can write the code. Can you tell if it's right?

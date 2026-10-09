@@ -14,9 +14,12 @@ const fraunces = Fraunces({ variable: "--font-fraunces", subsets: ["latin"], axe
 const mono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://daybookcs.vercel.app"),
   title: { default: "Daybook: learn how computers really work", template: "%s · Daybook" },
   description:
     "Daybook is a 16-week study plan: architecture, operating systems, networking, databases, distributed systems, software engineering, machine learning, generative AI and RAG. Start on any day.",
+  openGraph: { type: "website", siteName: "Daybook" },
+  twitter: { card: "summary_large_image" },
 };
 
 // Runs before paint so the saved theme never flashes.
