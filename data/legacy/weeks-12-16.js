@@ -4,7 +4,7 @@ WEEKS.push(
     phase: "ml",
     title: "Machine learning foundations",
     summary:
-      "The math you need, a proper supervised-learning workflow with honest evaluation, the standard models (linear and logistic regression, trees, forests, boosting, regularisation) and a neural network built from scratch. Python from here.",
+      "The math you need, a proper supervised-learning workflow with honest evaluation, the standard models (linear and logistic regression, trees, forests, boosting, regularisation) and a neural network built from scratch, then PyTorch.",
     project:
       "Linear regression from scratch, a cross-validated sklearn pipeline, a micrograd-style autograd engine and a PyTorch classifier.",
     days: [
