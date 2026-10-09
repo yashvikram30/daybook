@@ -2,6 +2,19 @@
 
 A free, 16-week computer science self-study plan, taught in Python. Each day has a short lesson, curated links, a small build, a check-your-understanding step, and a place to write your own notes. Progress, revision cards and notes live in your browser, and sync to your account if you sign in.
 
+[![Daybook promo preview](docs/promo.gif)](video/renders/video.mp4)
+
+_Click the preview to open the full 23-second promo video ([video/renders/video.mp4](video/renders/video.mp4))._
+
+## Screenshots
+
+|                                                                  |                                                                      |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------- |
+| ![Landing page with the seven-layer course stack](docs/home.jpg) | ![A day page with Learn, Build, Engineering and Check](docs/day.jpg) |
+| **Landing page.** Seven layers, from architecture up to ML.      | **A day.** Four short steps with time estimates and a goal.          |
+| ![Revision lab](docs/revise.jpg)                                 | ![Second brain notes](docs/notes.jpg)                                |
+| **Revision lab.** Shuffled questions from the weeks you pick.    | **Second brain.** Linked notes, tags and backlinks.                  |
+
 ## What is in it
 
 - **Part 0: Python foundations.** Four weeks for people new to programming: variables, strings, functions, lists, dictionaries, files, errors, classes, testing and git.
