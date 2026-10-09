@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { Icon } from "@/components/icons";
+import { StartCta } from "@/components/start-cta";
 import { TodayView } from "@/components/today-view";
 import { getCurriculum } from "@/lib/curriculum";
 import { allDays, dayHref, hostOf, itemsOf } from "@/lib/curriculum-types";
@@ -52,16 +53,12 @@ export default async function Home() {
               built yourself.
             </p>
             <div className="cta-row">
-              <Link className="btn primary big" href="/start">
+              <StartCta className="btn primary big">
                 Pick your start date
-              </Link>
-              <Link className="btn big" href="/day/1/1">
-                Look at day one
-              </Link>
+              </StartCta>
             </div>
             <p className="hero-note">
-              New to programming? Start with the optional{" "}
-              <Link href="/foundations">Part 0: Python Foundations</Link>.
+              New to programming? Includes an optional Part 0: Python Foundations.
             </p>
           </div>
           <div>
@@ -71,14 +68,14 @@ export default async function Home() {
                   key={l.p.slug}
                   style={{ ...tone(layers.length - 1 - k, layers.length), "--k": k } as CSSProperties}
                 >
-                  <Link href={`/week/${l.weeks[0].number}`}>
+                  <div className="stack-item">
                     <b>{l.p.name}</b>
                     <span>
                       {l.weeks.length === 1
                         ? `Week ${l.weeks[0].number}`
                         : `Weeks ${l.weeks[0].number} to ${l.weeks[l.weeks.length - 1].number}`}
                     </span>
-                  </Link>
+                  </div>
                 </li>
               ))}
             </ol>
@@ -182,9 +179,6 @@ export default async function Home() {
               Every day ends with a short journal. For bigger ideas there is a second brain: plain notes that
               link to each other and to any day, with tags, checklists and a search that finds them again.
             </p>
-            <Link className="ulink" href="/notes">
-              Open the notes
-            </Link>
           </div>
           <div className="mock">
             <div className="mock-bar">
@@ -220,9 +214,6 @@ export default async function Home() {
               explain it from memory. Every month there is a longer review that also reaches back into the
               months before it.
             </p>
-            <Link className="ulink" href="/week/1/lab">
-              See a revision lab
-            </Link>
           </div>
         </div>
       </section>
@@ -253,9 +244,9 @@ export default async function Home() {
             <h2>Learn it before you outsource it.</h2>
             <p>Free and open. Pick a date and you will have a schedule in under a minute.</p>
           </div>
-          <Link className="btn hot big" href="/start">
+          <StartCta className="btn hot big">
             Pick your start date
-          </Link>
+          </StartCta>
         </div>
       </section>
       <footer className="foot">

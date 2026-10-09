@@ -61,6 +61,7 @@
 .steplist a,
 .roadmap li > div,
 .stack a,
+.stack .stack-item,
 .daylist a {
   transition:
     transform 0.55s var(--ease-out),

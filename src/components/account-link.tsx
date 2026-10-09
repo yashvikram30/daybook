@@ -6,13 +6,7 @@ import { useSession } from "next-auth/react";
 export function AccountLink() {
   const { data, status } = useSession();
   if (status === "loading") return null;
-  if (!data?.user) {
-    return (
-      <Link className="btn account-btn" href="/signin">
-        Sign in
-      </Link>
-    );
-  }
+  if (!data?.user) return null;
   const name = data.user.name || data.user.email || "Account";
   return (
     <Link

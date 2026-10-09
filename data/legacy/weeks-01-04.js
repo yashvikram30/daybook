@@ -8,13 +8,13 @@ WEEKS.push(
     phase: "arch",
     title: "The machine, in Python",
     summary:
-      "Learn Python from the first day, starting with the basics, while you look at the machine under it: how numbers and objects live in memory, and the bytecode the interpreter runs.",
+      "Understand how computers work from the ground up: the mental model of CPU and RAM, how numbers and data live in memory, and how code translates into step-by-step machine execution.",
     project:
-      "Annotated bytecode listings of five small functions, traced in a debugger, plus a set of small basics programs.",
+      "Annotated bytecode listings of small functions traced in a debugger, plus small architecture programs exploring memory, data types, and the call stack.",
     days: [
       {
-        t: "Toolchain, Python basics and the memory behind them",
-        why: "Everything later is built in Python. If you finished Python Foundations, the basics below are revision, so spend your time on the toolchain and on the new idea of this week: every value is an object, a chunk of memory with a size and an address. If you did not, do the basics first and treat the memory work as the stretch.",
+        t: "The machine mental model and Python basics",
+        why: "A computer is fundamentally a processor running instructions on bytes stored in memory. We use Python as an interactive microscope to inspect memory addresses, object sizes, and toolchains, keeping advanced C-level internals as a gentle stretch.",
         main: [
           D(
             "Install Python 3.13 with uv",
@@ -53,13 +53,13 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Basics warm-up (45 min; if you finished Python Foundations this should take 15), in the REPL and then in `basics.py`: store your name and age in variables and print a sentence with an f-string; read a number with `input()` and `int()`; write FizzBuzz with a `for` loop and `if`/`elif`/`else`; write a `while` loop that asks until the input is valid; write a function `is_even(n)` with a docstring; and count the words in a text file with `open()` and `with`.",
-          "Words for this step: an object is a value plus its bookkeeping, stored in memory; its id is where it lives; a reference count is how many names point at it. Run `uv init` in a new folder. Write `types.py` that prints `sys.getsizeof` of an int (0, 1, 2**30, 2**100), a float, a str, a bytes, a list, a dict and a tuple, and `id()` of a local, a module variable and a freshly created object.",
-          "Find which names share an object: compare `a is b` for small ints, equal strings and equal lists, and watch `sys.getrefcount` change as you add names. Write down why.",
-          "Add one test file with a single `def test_even(): assert is_even(4)`. Run `pytest`, `ruff check` and `ruff format --check`: they replace a Makefile. Lesson 4 teaches pytest properly; today one assert is enough (Foundations day 4.3 covered it).",
-          "Raw sizes (20 min): use `ctypes.sizeof` on `c_int`, `c_long`, `c_double` and `c_void_p`, and compare each number with `sys.getsizeof` of the matching Python value. The difference is the object header.",
+          "Basics warm-up (30 min): in the REPL or `basics.py`, store variables, print an f-string, write a simple loop, read input, and write a function `is_even(n)` with a docstring.",
+          "Memory in action: write `types.py`. An object is a value stored in memory; `id(x)` is its actual memory address. Print `id()` and `sys.getsizeof()` for an int, a float, a string, and a list.",
+          "References and sharing: compare identity `a is b` (same memory address) with value equality `a == b`. Watch `sys.getrefcount(x)` change as you point names at an object.",
+          "Automated checks: add a test file with `def test_even(): assert is_even(4)`. Run `uv run pytest` and `uv run ruff check .` to let tools verify your code.",
+          "Advanced stretch: compare Python object overhead with raw C types using `ctypes.sizeof` (`c_int`, `c_long`) to see the difference between raw machine bytes and Python's object header.",
         ],
-        ship: "Folder 01-architecture/ with basics.py, ex1-types and a 5-line note on what surprised you.",
+        ship: "Folder 01-architecture/ with basics.py, ex1-types and a 5-line note on what surprised you about memory.",
         swe: {
           t: "Git: commits, branches, history",
           link: R(
@@ -74,8 +74,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "How numbers live in memory",
-        why: "Integers, floats and endianness explain whole classes of bugs, and lists show how Python wraps raw memory.",
+        t: "How numbers and data live in memory",
+        why: "Hardware only knows bits (0s and 1s). Understand how binary represents integers, negative numbers (two's complement), and decimals (floats), and why 0.1 + 0.2 != 0.3.",
         main: [
           L(
             "Python lesson 2: The Python Tutorial, data structures",
@@ -106,12 +106,11 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Basics warm-up (30 min): reverse a string two ways (slicing and a loop); count how often each letter appears in a sentence with a dict; remove duplicates from a list with a set and keep the original order; and sort a list of (name, score) tuples by score with `sorted(..., key=...)`.",
-          "Print any int and any float as binary with `format(n, 'b')` and `struct.pack('>d', x)`. Check against float.exposed.",
-          "Implement popcount, is-power-of-two and an endianness check yourself. Then compare with `int.bit_count`, `sys.byteorder` and `int.to_bytes`.",
-          "Show that Python ints never overflow, then wrap results to 8, 32 and 64 bits with a mask to match fixed-width hardware integers. Show that `0.1 + 0.2` from variables is not `0.3`.",
-          "Write a function that appends to a list in a loop. Print `sys.getsizeof` each time and find where it reallocates.",
-          "Check your masks against hardware integers: `ctypes.c_int8(200).value`, `ctypes.c_int32(2**31).value` and `ctypes.c_uint8(-1).value` wrap the way a register does, while the same arithmetic on Python ints just grows.",
+          "Basics warm-up (20 min): string slicing, word counts with dict, removing duplicates with set, and sorting tuples with `sorted(..., key=...)`.",
+          "Binary representation: print integers in binary with `bin()` and `format(n, 'b')`. Experiment with bitwise operations (`&`, `|`, `^`, `<<`, `>>`).",
+          "Fixed-width overflow: simulate 8-bit and 32-bit hardware registers with bit masks (`n & 0xFF`), and contrast how fixed-width hardware wraps around while Python integers grow automatically.",
+          "Floating-point reality: test why `0.1 + 0.2 == 0.3` is False in binary floating point, and inspect the precision difference with `math.isclose`.",
+          "Advanced stretch: pack numbers into raw bytes using `struct.pack('>d', x)`, check byte order with `sys.byteorder`, and inspect register wrap-around with `ctypes.c_int8`.",
         ],
         ship: "bits.py with tests, a short note on fixed-width wrap-around, and a note on why 0.1 + 0.2 != 0.3.",
         swe: {
@@ -129,8 +128,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "Machine code and assembly",
-        why: "See what the interpreter does with your code, instruction by instruction, and what a method call costs, then compare with real machine code.",
+        t: "CPU instructions: From code to execution",
+        why: "A CPU cannot run high-level code directly; it executes primitive instructions one at a time. Trace Python's bytecode to see the fetch-decode-execute loop in action before comparing it to real machine assembly.",
         main: [
           L(
             "Python lesson 3: The Python Tutorial, classes",
@@ -164,12 +163,11 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Basics warm-up (30 min): write a small class `Counter` with `__init__`, an `increment` method and a `__repr__`, then a function that reads a file of numbers, skips blank lines with `try`/`except ValueError`, and returns the total.",
-          "Write 5 tiny Python functions: add, max, sum-a-list loop, attribute access on an instance, and a method called through a class hierarchy.",
-          "Disassemble each with `dis.dis`. Call a function a few thousand times, then disassemble again with `dis.dis(f, adaptive=True)` and watch instructions specialise.",
-          "Find the instruction an attribute lookup or method call makes, and the one that does a list index with its bounds check.",
-          "Annotate every line of one function's bytecode, using the dis docs for each opcode.",
-          "Time `a + b` on ints, floats and strings with `timeit`, divide by the bytecode count, and estimate the cost per instruction. The interpreter loop that runs each bytecode is itself machine code.",
+          "Basics warm-up (20 min): write a small `Counter` class with `__init__` and `increment`, and read a file with `try`/`except`.",
+          "Inspect instructions: disassemble small Python functions (`add(a, b)`, `max(a, b)`) with `dis.dis`. Identify instructions like `LOAD_FAST`, `BINARY_OP`, and `RETURN_VALUE`.",
+          "Control flow in instructions: disassemble an `if`/`else` and a `while` loop, noticing how conditionals become jump instructions (like `POP_JUMP_IF_FALSE`).",
+          "Timing instructions: time simple operations with `timeit` to estimate the work the interpreter loop does per instruction.",
+          "Advanced stretch: compare Python bytecode instructions with real ARM64/x86 assembly instructions (`ADD`, `LDR`, `STR`, `CMP`, `B`).",
         ],
         ship: "annotated.md: one function, each instruction explained in plain English.",
         swe: {
@@ -186,8 +184,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "Stack frames and the calling convention",
-        why: "Function calls are the contract between every piece of software on the machine. Python and the hardware keep that contract differently.",
+        t: "The Call Stack, functions, and memory layout",
+        why: "Every function call needs memory to remember its arguments, local variables, and return address. Understand the call stack, why infinite recursion runs out of memory, and how debuggers inspect stack frames.",
         main: [
           L(
             "Python lesson 4: pytest, the first chapters",
@@ -211,10 +209,11 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Step through a recursive factorial in pdb (`breakpoint()`, then `where`, `up`, `down`, `args`, `next`, `step`). Note each frame's locals.",
-          "Recurse past the default limit and read the `RecursionError`. Raise it with `sys.setrecursionlimit` and find how deep your build goes. Explain why Python guards recursion instead of letting the stack run out.",
-          "Draw the stack for a three-deep call chain with locals and saved registers, once as CPython frames and once as machine registers and stack slots (AAPCS64).",
-          "Memory bugs Python prevents (30 min): write the Python version of an out-of-bounds write, a read of an uninitialised variable and a use of an object after you dropped the last name. Trigger each, and write down the exception it raises (`IndexError`, `UnboundLocalError`, or none because the object is still alive).",
+          "Stack tracing: write a recursive function (like factorial or countdown) and trace how call frames are stacked and unstacked.",
+          "Interactive debugger: drop into `pdb` with `breakpoint()`, step through frames (`where`, `up`, `down`, `print`, `next`), watching local variables in each frame.",
+          "Stack safety: trigger a `RecursionError` and see how language runtimes guard against stack blowup.",
+          "Memory safety: contrast how Python raises `IndexError` on out-of-bounds access with how raw machine stack overflows corrupt return addresses.",
+          "Advanced stretch: inspect live stack objects with `inspect.stack()`, and compare Python frames with hardware calling conventions (AAPCS64 registers vs stack slots).",
         ],
         ship: "weekly/week-01.md: what you built, what broke, and your answers to the check questions.",
         swe: {
@@ -237,12 +236,12 @@ WEEKS.push(
     phase: "arch",
     title: "Memory, caches and a tiny CPU",
     summary:
-      "Understand why memory access dominates performance, how virtual memory works, and build a CPU emulator in Python.",
-    project: "A CHIP-8 emulator in Python that passes a community test ROM suite.",
+      "Explore why memory speed dominates computer performance, how virtual memory creates isolated address spaces, and build an intuitive CPU emulator in Python.",
+    project: "A CPU emulator in Python executing instructions step-by-step in a fetch-decode-execute loop, with an optional CHIP-8 mode.",
     days: [
       {
         t: "The memory hierarchy and caches",
-        why: "Locality explains most real-world performance surprises. NumPy arrays and timeit make it easy to see.",
+        why: "The CPU is hundreds of times faster than RAM. Caches (L1, L2, L3) bridge this gap using locality: data you just used or data stored nearby can be accessed in nanoseconds, while random jumping stalls the processor.",
         main: [
           R(
             "Python lesson 5: PEP 8, the style guide",
@@ -272,12 +271,13 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Write a benchmark with NumPy that sums a 4096x4096 matrix row-wise and another that sums it column-wise. Use `timeit` and compare C-order with Fortran-order arrays.",
-          "Vary the stride over a large array from 1 to 1024 and plot time per access.",
-          "Explain the knees in your plot using your CPU's cache sizes (`sysctl hw.l1dcachesize` etc).",
-          "Benchmark traversing a linked list of Python objects against a list and against an `array.array` of the same 1M ints, and explain what the interpreter adds.",
+          "Clean code check: review PEP 8 style conventions and run `ruff check` on your week 1 code.",
+          "Locality in action: benchmark sequential access across an array versus jumping randomly with `timeit`.",
+          "2D memory traversal: compare row-by-row matrix traversal (sequential in memory) versus column-by-column traversal.",
+          "Data structures vs memory: benchmark traversing a contiguous array versus traversing a pointer-linked structure.",
+          "Advanced stretch: stride experiments plotting access times across cache boundaries (L1/L2/L3 sizes).",
         ],
-        ship: "cache-experiments/ with Python benchmarks, a plot and a paragraph interpreting it.",
+        ship: "cache-experiments/ with Python benchmarks, a plot or table, and a paragraph interpreting it.",
         swe: {
           t: "Profiling mindset",
           link: R(
@@ -292,8 +292,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "Virtual memory",
-        why: "Every address you print is virtual. Learn how it becomes a physical address, and how to ask the kernel for memory yourself.",
+        t: "Virtual memory and address spaces",
+        why: "Every address your program prints is a virtual address. Virtual memory gives each program its own private, isolated address space so programs cannot crash or corrupt each other, and lets the OS use disk as extra memory.",
         main: [
           R(
             "Python lesson 6: errors and exceptions",
@@ -349,11 +349,11 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Print `id()` of a function, a module variable, a heap object and a local. Sketch the layout. Note that these are real addresses in CPython, and compare with `ctypes.addressof`.",
-          "`mmap.mmap(-1, 1 << 30)` an anonymous 1 GB region, touch one page at a time, and watch resident memory with `resource.getrusage`.",
-          "Measure minor page faults with `/usr/bin/time -l` and `ru_minflt`.",
-          "Catch the `OSError` from a bad mmap and re-raise it with context using `raise ... from err`.",
-          "Write a page-replacement simulator for FIFO, optimal, LRU and clock. Run `1 2 3 4 1 2 5 1 2 3 4 5` with 3 and then 4 frames and show Belady's anomaly under FIFO. Plot faults against frames for a looping and a random reference string.",
+          "Error handling: catch and handle `OSError` cleanly when interacting with system resources.",
+          "Address isolation: run two Python processes and observe that their memory spaces are isolated.",
+          "Page replacement simulator: write a clean 30-line simulator in Python that tracks memory page hits and misses using FIFO (First-In, First-Out) and LRU (Least Recently Used) on a sequence of page accesses.",
+          "Page fault tracing: understand what happens when a requested page isn't in RAM.",
+          "Advanced stretch: experiment with memory mapping using `mmap`, or observe process memory usage with `resource.getrusage`.",
         ],
         ship: "vm-experiments/ in Python and an address-space diagram of your own process.",
         swe: {
@@ -371,8 +371,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "Build a CPU emulator, part 1",
-        why: "The fastest way to learn fetch-decode-execute is to write it, and an emulator is a good size of Python program.",
+        t: "Build a CPU emulator: Architecture and instructions",
+        why: "The most effective way to understand computer architecture is to build a CPU. Construct a clean emulator in Python: an instruction loop with registers, memory, and a Program Counter.",
         main: [
           L(
             "Python lesson 7: dataclasses and protocols",
@@ -393,11 +393,13 @@ WEEKS.push(
           V("Registers and RAM: Crash Course Computer Science #6", "fpnE6UAfbtU", "12 min refresher."),
         ],
         build: [
-          "Model 4 KB memory (a `bytearray`), 16 registers, index register, PC, stack and timers in one class.",
-          "Implement fetch, decode and the first 15 opcodes. Run the IBM logo ROM.",
-          "Render the 64x32 display to the terminal with ANSI escapes first. Add pygame (pygame.org) later if you want a window.",
+          "Model the hardware: create a `CPU` class with a `bytearray` for memory, registers (`R0`..`R3`), and an integer Program Counter (`PC`).",
+          "The Fetch-Decode-Execute loop: write the core loop that fetches an instruction from memory, decodes the opcode, and performs the action.",
+          "Core instruction set: implement arithmetic (`ADD`, `SUB`), register load (`LOAD`), and jumping (`JUMP`).",
+          "Run machine code: load a sequence of raw instruction bytes into memory and watch your emulator execute it to produce a correct result.",
+          "Advanced stretch: implement the CHIP-8 specification (IBM logo ROM, 16 registers, timers).",
         ],
-        ship: "chip8/ emulator in Python that passes the IBM logo and the first test ROM.",
+        ship: "chip8/ emulator in Python that executes basic instructions or passes the IBM logo test ROM.",
         swe: {
           t: "Parametrized tests",
           link: R(
@@ -412,8 +414,8 @@ WEEKS.push(
         ],
       },
       {
-        t: "Finish the CPU, then pipelines, interrupts and I/O",
-        why: "Complete the emulator and connect it to how real CPUs execute faster.",
+        t: "CPU control, pipelines, interrupts, and I/O",
+        why: "Connect your emulator to how modern real-world CPUs achieve high performance: instruction pipelines, clock cycles, and handling hardware events through interrupts rather than polling.",
         main: [
           L(
             "Python lesson 8: type hints and mypy",
@@ -438,11 +440,12 @@ WEEKS.push(
           ),
         ],
         build: [
-          "Finish the remaining opcodes. Pass the flags and quirks test ROMs.",
-          "Add keyboard input and a 60 Hz timer with `threading.Timer` or a monotonic-clock loop.",
-          "Write a short note on what a pipeline hazard would mean for your emulator's design.",
+          "Branching and decisions: add conditional jumps (`JUMP_IF_ZERO`) to your emulator so programs can make decisions and loop.",
+          "Clock and timing: add a clock loop with a tick rate, comparing busy-wait polling for input versus event-driven interrupts.",
+          "Instruction pipelining: sketch a 3-stage pipeline (Fetch, Decode, Execute) and write a short note on why branches can cause pipeline stalls (hazards).",
+          "Advanced stretch: type annotations with `mypy`, or adding raw terminal keypad input to the emulator.",
         ],
-        ship: "weekly/week-02.md plus a tagged `v1` of the emulator.",
+        ship: "weekly/week-02.md plus a tagged `v1` of your CPU emulator.",
         swe: {
           t: "Tag and release",
           link: R("Semantic Versioning", "https://semver.org/", "Tag your emulator v1.0.0."),

@@ -26,6 +26,7 @@ export function AppShell({
   const [navOpen, setNavOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [focus, setFocus] = useState(false);
+  const isHome = pathname === "/";
   const closeNav = useCallback(() => setNavOpen(false), []);
 
   // Focus mode hides everything but the page; where the browser allows it, it also goes full screen.
@@ -69,9 +70,17 @@ export function AppShell({
     };
   }, [toggleFocus]);
 
+  // The sign-in page is a standalone screen: no sidebar, header or search.
+  if (pathname === "/signin") return <SyncManager>{children}</SyncManager>;
+
   return (
     <SyncManager>
-      <div className="shell" data-focus={focus ? "on" : undefined}>
+      <div
+        className="shell"
+        data-focus={focus ? "on" : undefined}
+        data-home={isHome ? "true" : undefined}
+        data-settings={pathname === "/settings" ? "true" : undefined}
+      >
         <a className="skip" href="#main">
           Skip to content
         </a>
@@ -95,29 +104,33 @@ export function AppShell({
             </span>
             Daybook
           </Link>
-          <button
-            className="search-btn"
-            type="button"
-            aria-label="Search the plan"
-            onClick={() => setSearchOpen(true)}
-          >
-            {Icon.search}
-            <span>Search</span>
-            <kbd>/</kbd>
-          </button>
+          {!isHome && (
+            <button
+              className="search-btn"
+              type="button"
+              aria-label="Search the plan"
+              onClick={() => setSearchOpen(true)}
+            >
+              {Icon.search}
+              <span>Search</span>
+              <kbd>/</kbd>
+            </button>
+          )}
           <span className="grow" />
-          <nav className="top-links" aria-label="Sections">
-            <Link href="/plan" className={pathname === "/plan" ? "on" : undefined}>
-              Plan
-            </Link>
-            <Link href="/revise" className={pathname === "/revise" ? "on" : undefined}>
-              Revise
-            </Link>
-            <Link href="/notes" className={pathname === "/notes" ? "on" : undefined}>
-              Notes
-            </Link>
-            <MoreMenu onFocus={toggleFocus} />
-          </nav>
+          {!isHome && (
+            <nav className="top-links" aria-label="Sections">
+              <Link href="/plan" className={pathname === "/plan" ? "on" : undefined}>
+                Plan
+              </Link>
+              <Link href="/revise" className={pathname === "/revise" ? "on" : undefined}>
+                Revise
+              </Link>
+              <Link href="/notes" className={pathname === "/notes" ? "on" : undefined}>
+                Notes
+              </Link>
+              <MoreMenu onFocus={toggleFocus} />
+            </nav>
+          )}
           <ThemeToggle />
           <AccountLink />
         </header>
