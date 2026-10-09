@@ -8,12 +8,9 @@ _Click the preview to open the full 23-second promo video ([video/renders/video.
 
 ## Screenshots
 
-|                                                                  |                                                                      |
-| ---------------------------------------------------------------- | -------------------------------------------------------------------- |
-| ![Landing page with the seven-layer course stack](docs/home.jpg) | ![A day page with Learn, Build, Engineering and Check](docs/day.jpg) |
-| **Landing page.** Seven layers, from architecture up to ML.      | **A day.** Four short steps with time estimates and a goal.          |
-| ![Revision lab](docs/revise.jpg)                                 | ![Second brain notes](docs/notes.jpg)                                |
-| **Revision lab.** Shuffled questions from the weeks you pick.    | **Second brain.** Linked notes, tags and backlinks.                  |
+![Landing page with the seven-layer course stack](docs/home.jpg)
+
+![A day page with Learn, Build, Engineering and Check steps](docs/day.jpg)
 
 ## What is in it
 
