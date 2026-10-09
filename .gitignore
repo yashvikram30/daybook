@@ -41,3 +41,10 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .data/
+
+# HyperFrames video project and local tooling
+/video/
+/.agents/
+/.claude/
+/skills-lock.json
+/bun.lock
