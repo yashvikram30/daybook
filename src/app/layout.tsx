@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
+import { PageViewTracker } from "@/components/page-view-tracker";
 import { getCurriculum } from "@/lib/curriculum";
 import { buildNav, buildSearch } from "@/lib/nav-model";
 import "./globals.css";
@@ -37,6 +38,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
+        <PageViewTracker />
         <AppShell phases={buildNav(curriculum)} search={buildSearch(curriculum)}>
           {children}
         </AppShell>

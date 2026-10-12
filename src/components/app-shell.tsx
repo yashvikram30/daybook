@@ -70,8 +70,8 @@ export function AppShell({
     };
   }, [toggleFocus]);
 
-  // The sign-in page is a standalone screen: no sidebar, header or search.
-  if (pathname === "/signin") return <SyncManager>{children}</SyncManager>;
+  // The sign-in page and the owner's analytics are standalone screens: no sidebar, header or search.
+  if (pathname === "/signin" || pathname === "/analytics") return <SyncManager>{children}</SyncManager>;
 
   return (
     <SyncManager>

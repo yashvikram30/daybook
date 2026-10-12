@@ -1,0 +1,151 @@
+/* Owner-only analytics page. Colours come from the site's theme tokens, so both themes work. */
+/* No app shell here, so the page centres itself. */
+main.an {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 28px 96px;
+}
+.an-back {
+  display: inline-block;
+  margin-bottom: 18px;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--muted);
+}
+.an-back:hover {
+  color: var(--accent-text);
+}
+.an-range {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 8px;
+}
+.an-range .btn {
+  min-height: 34px;
+  padding: 0 14px;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+.an-cards {
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+}
+.an-cards .card small + small {
+  margin-top: 2px;
+}
+.an h2 {
+  margin-top: 44px;
+}
+.an-empty {
+  color: var(--muted);
+  margin: 12px 0;
+}
+.an-sub {
+  display: block;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+.an-chart {
+  margin: 12px 0 0;
+  padding: 14px 14px 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.an-chart svg {
+  stroke: none; /* the site-wide svg rule strokes everything, which would embolden the text */
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.an-chart figcaption {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.an-views {
+  fill: var(--accent);
+  opacity: 0.32;
+  background: var(--accent);
+}
+.an-visitors {
+  fill: var(--accent);
+  background: var(--accent);
+}
+.an-key {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.an-key.an-views {
+  margin-left: 0;
+}
+.an-key.an-visitors {
+  margin-left: 12px;
+}
+.an-grid-line {
+  stroke: var(--line);
+  stroke-width: 1;
+}
+.an-axis {
+  fill: var(--muted);
+  font: 400 11px var(--sans);
+  font-variant-numeric: tabular-nums;
+}
+.an-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+.an-bars h3 {
+  font: 600 14px var(--sans);
+  margin: 4px 0 8px;
+}
+.an-bars ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+.an-bars li {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.an-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent-soft);
+  z-index: 0;
+}
+.an-label,
+.an-n {
+  position: relative;
+  z-index: 1;
+}
+.an-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.an-n {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+@media (max-width: 720px) {
+  .an h1 {
+    font-size: 34px;
+  }
+}

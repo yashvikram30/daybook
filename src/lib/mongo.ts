@@ -1,4 +1,5 @@
 import { MongoClient, type Collection } from "mongodb";
+import type { Visit } from "./analytics";
 
 /** One row per user per synced store: { uid, key, value (JSON text), updated }. */
 export type SyncRow = { uid: string; key: string; value: string; updated: number };
@@ -21,6 +22,19 @@ export async function syncRows(): Promise<Collection<SyncRow>> {
   if (!indexed) {
     await col.createIndex({ uid: 1, key: 1 }, { unique: true });
     indexed = true;
+  }
+  return col;
+}
+
+let visitsIndexed = false;
+
+/** One document per page view, expired after a year or so. See lib/analytics.ts. */
+export async function visits(): Promise<Collection<Visit>> {
+  const col = (await client()).db(process.env.MONGODB_DB || "daybook").collection<Visit>("visits");
+  if (!visitsIndexed) {
+    await col.createIndex({ ts: 1 }, { expireAfterSeconds: 400 * 24 * 3600 });
+    await col.createIndex({ vid: 1, ts: 1 });
+    visitsIndexed = true;
   }
   return col;
 }

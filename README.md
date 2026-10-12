@@ -46,8 +46,18 @@ The course content works without any configuration. Signing in and cross-device 
 | `AUTH_SECRET`                          | Auth.js session signing (`openssl rand -base64 33`)                   |
 | `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET` | Google sign-in. The redirect URI is `<site>/api/auth/callback/google` |
 | `AUTH_URL`                             | Only when not hosting on Vercel: the public URL                       |
+| `ANALYTICS_OWNER_EMAIL`                | Google email(s) allowed to open `/analytics` (comma-separated)        |
 
 If `mongodb+srv://` fails locally with `querySrv EREFUSED`, your network's DNS is refusing SRV lookups. Switch to a public DNS server, or use Atlas's standard `mongodb://` connection string.
+
+## Analytics
+
+`/analytics` is a private dashboard for the site owner: page views, unique and returning visitors, sessions, top pages, referrers, countries, devices, and a list of who visited (the name and email of signed-in visitors, a short id for everyone else). Anyone who is not signed in as `ANALYTICS_OWNER_EMAIL` gets a 404.
+
+- Views are sent from the browser to `/api/track` and stored in a `visits` collection in the same MongoDB database, then expire after about 13 months. No third party is involved.
+- Recorded per view: path, referrer host (first page of a session), country and city from Vercel's IP headers, browser, OS, device type, and the account when signed in. IP addresses and query strings are not stored.
+- Skipped: bots, Do Not Track and Global Privacy Control, the owner's own signed-in visits (stored but hidden), and `next dev` (set `ANALYTICS_TRACK_DEV=1` to include it).
+- Set `ANALYTICS_OWNER_EMAIL` in the host's environment variables too, not just `.env.local`.
 
 ## Scripts
 
