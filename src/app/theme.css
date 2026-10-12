@@ -441,17 +441,6 @@ kbd {
   color: #e0d3dd;
   font-size: 18px;
 }
-.foot {
-  padding: 28px 0;
-  color: var(--muted);
-  font-size: 14px;
-}
-.foot .wrap {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-}
 @media (max-width: 900px) {
   main {
     padding: 36px 20px 80px;

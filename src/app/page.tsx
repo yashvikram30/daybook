@@ -247,12 +247,6 @@ export default async function Home() {
           </StartCta>
         </div>
       </section>
-      <footer className="foot">
-        <div className="wrap">
-          <span>Daybook</span>
-          <span>Free to follow. Your progress and notes stay in your browser.</span>
-        </div>
-      </footer>
     </div>
   );
   return <TodayView days={planDays(c)} landing={landing} />;

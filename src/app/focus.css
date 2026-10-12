@@ -334,3 +334,10 @@
   max-width: none;
   padding: 0;
 }
+
+/* The GitHub mark is a filled glyph, unlike the stroked line icons around it. */
+svg.gh,
+.icon-btn svg.gh {
+  fill: currentColor;
+  stroke: none;
+}

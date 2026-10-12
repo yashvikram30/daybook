@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ViewTransition, useCallback, useEffect, useState } from "react";
 import { AccountMenu } from "./account-menu";
+import { GITHUB_URL } from "@/lib/site";
 import { Icon } from "./icons";
 import { MoreMenu } from "./more-menu";
 import { NavTree, type NavPhase } from "./nav-tree";
@@ -130,6 +131,18 @@ export function AppShell({
               </Link>
               <MoreMenu onFocus={toggleFocus} />
             </nav>
+          )}
+          {isHome && (
+            <a
+              className="icon-btn"
+              href={GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Daybook on GitHub"
+              title="Daybook on GitHub"
+            >
+              {Icon.github}
+            </a>
           )}
           <ThemeToggle />
           <AccountMenu />
