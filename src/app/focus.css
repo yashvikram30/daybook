@@ -255,18 +255,68 @@
   }
 }
 
-/* Account entry in the header */
-.account-btn {
-  padding: 0.3rem 0.8rem;
-}
+/* Account entry in the header: a round avatar that opens a small menu */
 .account-dot {
-  width: 2rem;
-  height: 2rem;
+  width: 36px;
+  height: 36px;
+  padding: 0;
   border-radius: 50%;
-  background: var(--accent, #2f6f5e);
-  color: #fff;
+  background: none;
+  color: inherit;
+}
+.account-dot .avatar {
+  --av: 30px;
+  font-size: 13px;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--av, 36px);
+  height: var(--av, 36px);
+  border-radius: 50%;
+  background: var(--plum);
+  color: #fbf8f1;
   font-weight: 600;
-  text-decoration: none;
+  object-fit: cover;
+  overflow: hidden;
+}
+.avatar.guest {
+  background: var(--bg-hover);
+  color: var(--muted);
+}
+.avatar svg {
+  width: 58%;
+  height: 58%;
+}
+.acct-pop {
+  min-width: 260px;
+}
+.acct-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+}
+.acct-head .avatar {
+  --av: 38px;
+}
+.acct-head div {
+  min-width: 0;
+}
+.acct-head b {
+  display: block;
+  font-size: 14px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.more-pop .acct-head small {
+  display: block;
+  margin-left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---------- 404: stands alone, so the shell's chrome steps aside while it is showing ---------- */

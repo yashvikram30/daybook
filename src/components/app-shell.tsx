@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ViewTransition, useCallback, useEffect, useState } from "react";
-import { AccountLink } from "./account-link";
+import { AccountMenu } from "./account-menu";
 import { Icon } from "./icons";
 import { MoreMenu } from "./more-menu";
 import { NavTree, type NavPhase } from "./nav-tree";
@@ -79,7 +79,7 @@ export function AppShell({
         className="shell"
         data-focus={focus ? "on" : undefined}
         data-home={isHome ? "true" : undefined}
-        data-settings={pathname === "/settings" ? "true" : undefined}
+        data-settings={pathname === "/settings" || pathname === "/profile" ? "true" : undefined}
       >
         <a className="skip" href="#main">
           Skip to content
@@ -132,7 +132,7 @@ export function AppShell({
             </nav>
           )}
           <ThemeToggle />
-          <AccountLink />
+          <AccountMenu />
         </header>
         {focus && (
           <button

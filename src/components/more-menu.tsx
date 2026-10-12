@@ -1,42 +1,19 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePopover } from "@/lib/use-popover";
 import { Icon } from "./icons";
 
 const ITEMS = [
   { href: "/foundations", label: "Part 0: Foundations", tag: "Optional", match: "prefix" },
   { href: "/python", label: "Learn Python", match: "exact" },
   { href: "/schedule", label: "Schedule", match: "exact" },
-  { href: "/settings", label: "Settings", match: "exact" },
 ] as const;
 
 /** The rarely used pages and actions, kept out of the header until asked for. */
 export function MoreMenu({ onFocus }: { onFocus: () => void }) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const root = useRef<HTMLDivElement>(null);
-  const [seen, setSeen] = useState(pathname);
-  if (seen !== pathname) {
-    setSeen(pathname);
-    setOpen(false);
-  }
-
-  useEffect(() => {
-    if (!open) return;
-    function onDown(e: MouseEvent) {
-      if (!root.current?.contains(e.target as Node)) setOpen(false);
-    }
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(false);
-    }
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [open]);
+  const { open, setOpen, root } = usePopover(pathname);
 
   const active = ITEMS.some((i) =>
     i.match === "prefix" ? pathname.startsWith(i.href) : pathname === i.href,

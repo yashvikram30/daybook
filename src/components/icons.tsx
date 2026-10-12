@@ -15,6 +15,12 @@ export const Icon = {
       <path d="M20 14.5A8 8 0 019.5 4 8 8 0 1020 14.5z" />
     </svg>
   ),
+  user: (
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="8.5" r="3.5" />
+      <path d="M5 20c.7-3.6 3.4-5.5 7-5.5s6.3 1.9 7 5.5" />
+    </svg>
+  ),
   external: (
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5" />

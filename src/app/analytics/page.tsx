@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { auth } from "@/auth";
 import { loadReport, type Report } from "@/lib/analytics-store";
@@ -9,14 +10,13 @@ import { Header, isRange, RANGES, ReportView, type RangeKey } from "./report-vie
 // anything streams, instead of a 200 whose title and loading state reveal the page exists.
 export const instant = false;
 
-// Set here, not through `metadata`: that export would put "Analytics" in the title of the 404
-// that everyone else gets. React moves these tags into <head>.
-const meta = (
-  <>
-    <title>Analytics · Daybook</title>
-    <meta name="robots" content="noindex, nofollow" />
-  </>
-);
+// Resolved per request instead of a static `metadata` export, which would put "Analytics" in the
+// title of the 404 that everyone else gets.
+export async function generateMetadata(): Promise<Metadata> {
+  const session = await auth();
+  if (!isOwnerEmail(session?.user?.email)) return {};
+  return { title: "Analytics", robots: { index: false, follow: false } };
+}
 
 export default async function AnalyticsPage({ searchParams }: PageProps<"/analytics">) {
   const session = await auth();
@@ -31,7 +31,6 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/analyt
     console.error("analytics query failed", e);
     return (
       <main className="an" id="main">
-        {meta}
         <article>
           <Header current={key} />
           <p className="callout">Could not reach the database, so there is nothing to show yet.</p>
@@ -41,7 +40,6 @@ export default async function AnalyticsPage({ searchParams }: PageProps<"/analyt
   }
   return (
     <main className="an" id="main">
-      {meta}
       <article>
         <ReportView current={key} report={report} />
       </article>
