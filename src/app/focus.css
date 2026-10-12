@@ -268,3 +268,19 @@
   font-weight: 600;
   text-decoration: none;
 }
+
+/* ---------- 404: stands alone, so the shell's chrome steps aside while it is showing ---------- */
+.shell:has(.nf) > :not(.layout),
+.shell:has(.nf) .nav,
+.shell:has(.nf) .toc,
+.shell:has(.nf) .scrim {
+  display: none;
+}
+.shell:has(.nf) .layout {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: none;
+}
+.shell:has(.nf) main {
+  max-width: none;
+  padding: 0;
+}

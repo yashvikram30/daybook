@@ -1,0 +1,29 @@
+/* The 404 screen: the page's own article styles, centred on an empty screen. */
+.nf {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 48px 24px;
+}
+.nf article {
+  width: 100%;
+  max-width: 520px;
+}
+.nf-eyebrow {
+  margin: 0 0 6px;
+  font: 600 13px var(--mono);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 24px 0 0;
+}
+.nf-actions .btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}

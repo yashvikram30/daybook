@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { AppShell } from "@/components/app-shell";
 import { PageViewTracker } from "@/components/page-view-tracker";
@@ -38,7 +39,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
-        <PageViewTracker />
+        <Suspense fallback={null}>
+          <PageViewTracker />
+        </Suspense>
         <AppShell phases={buildNav(curriculum)} search={buildSearch(curriculum)}>
           {children}
         </AppShell>
