@@ -105,45 +105,39 @@ export function AppShell({
             </span>
             Daybook
           </Link>
-          {!isHome && (
-            <button
-              className="search-btn"
-              type="button"
-              aria-label="Search the plan"
-              onClick={() => setSearchOpen(true)}
-            >
-              {Icon.search}
-              <span>Search</span>
-              <kbd>/</kbd>
-            </button>
-          )}
+          <button
+            className="search-btn"
+            type="button"
+            aria-label="Search the plan"
+            onClick={() => setSearchOpen(true)}
+          >
+            {Icon.search}
+            <span>Search</span>
+            <kbd>/</kbd>
+          </button>
           <span className="grow" />
-          {!isHome && (
-            <nav className="top-links" aria-label="Sections">
-              <Link href="/plan" className={pathname === "/plan" ? "on" : undefined}>
-                Plan
-              </Link>
-              <Link href="/revise" className={pathname === "/revise" ? "on" : undefined}>
-                Revise
-              </Link>
-              <Link href="/notes" className={pathname === "/notes" ? "on" : undefined}>
-                Notes
-              </Link>
-              <MoreMenu onFocus={toggleFocus} />
-            </nav>
-          )}
-          {isHome && (
-            <a
-              className="icon-btn"
-              href={GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Daybook on GitHub"
-              title="Daybook on GitHub"
-            >
-              {Icon.github}
-            </a>
-          )}
+          <nav className="top-links" aria-label="Sections">
+            <Link href="/plan" className={pathname === "/plan" ? "on" : undefined}>
+              Plan
+            </Link>
+            <Link href="/revise" className={pathname === "/revise" ? "on" : undefined}>
+              Revise
+            </Link>
+            <Link href="/notes" className={pathname === "/notes" ? "on" : undefined}>
+              Notes
+            </Link>
+            <MoreMenu onFocus={toggleFocus} />
+          </nav>
+          <a
+            className="icon-btn gh-btn"
+            href={GITHUB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Daybook on GitHub"
+            title="Daybook on GitHub"
+          >
+            {Icon.github}
+          </a>
           <ThemeToggle />
           <AccountMenu />
         </header>

@@ -186,6 +186,12 @@ kbd {
 .shell[data-home]:has(.landing) .search-btn {
   display: none;
 }
+.shell .gh-btn {
+  display: none;
+}
+.shell[data-home]:has(.landing) .gh-btn {
+  display: grid;
+}
 .shell[data-home] main:has(.landing) {
   max-width: none;
   padding: 0;
